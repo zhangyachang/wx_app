@@ -43,7 +43,13 @@ exports.login_code = (req, res) => {
         .then(msg => {
           console.log('换取信息成功');
           console.log(msg.data);
-          res.send(msg.data);
+          // 这里就可以获得到 openid 和 session_key
+          //会话密钥 session_key 是对用户数据进行 加密签名 的密钥。为了应用自身的数据安全，开发者服务器不应该把会话密钥下发到小程序，也不应该对外提供这个密钥。
+          // 临时登录凭证 code 只能使用一次
+          res.send({
+            status: 200,
+            msg: msg.data.openid
+          });
         })
         .catch(err => {
           console.log('错误信息');
