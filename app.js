@@ -19,8 +19,8 @@ app.all('*', function(req, res, next) {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 app.use('/', express.static(join(__dirname, 'public')));
+
 
 app.use('/', require('./router/index'));
 
