@@ -12,8 +12,6 @@ router.get('/', (req, res) => {
 
 // 获取token
 router.get('/token', (req, res) => {
-  console.log('请求到了');
-  res.send('请求成功');
   axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appInfo.appId}&secret=${appInfo.secret}`)
       .then(res => {
         console.log(res);
