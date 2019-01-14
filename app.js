@@ -17,9 +17,10 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-app.use(bodyParser.json(join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', express.static('public'));
+
+app.use('/', express.static(join(__dirname, 'public')));
 
 app.use('/', require('./router/index'));
 
