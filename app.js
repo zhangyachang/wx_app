@@ -2,9 +2,9 @@ const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     {join} = require('path'),
+    http = require('http'),
     morgan = require('morgan'),
     {port} = require('./config');
-
 
 app.use(morgan('dev'));
 
@@ -24,7 +24,6 @@ app.use('/', express.static(join(__dirname, 'public')));
 
 app.use('/', require('./router/index'));
 
-
-app.listen(port, () => {
+http.createServer(app).listen(port, () => {
   console.log(port+'端口服务启动成功');
 });

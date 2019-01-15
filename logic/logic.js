@@ -48,7 +48,7 @@ exports.login_code = (req, res) => {
           // 临时登录凭证 code 只能使用一次
           res.send({
             status: 200,
-            msg: msg.data.openid
+            openid: msg.data.openid
           });
         })
         .catch(err => {
