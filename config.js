@@ -6,6 +6,7 @@ module.exports = {
     templateId: "INY2z45CUuptLDZ_lF8AcSmIve8thiTUtinLxJ"
   },
   access_token: '',
+  pushToken: 'zhangyachangToken', // 服务器推送Token
   
 };
 

@@ -1,6 +1,6 @@
 
 const axios = require('axios'),
-  {appInfo, access_token} = require('../config'),
+  {appInfo, access_token, pushToken} = require('../config'),
     config = require('../config');
 
 
@@ -24,6 +24,20 @@ exports.token = (req, res) => {
         });
   }
 };
+
+// 验证服务器推送url地址
+exports.check_push = (req, res) => {
+  console.log(req.query);
+  let signature = req.query.signature,
+      timestamp = req.query.timestamp,
+      nonce = req.query.nonce;
+  
+  
+  
+  
+};
+
+
 
 
 // 前台发送登录 code  这里去发送code去微信服务器去验证 返回来 session_key + openid
