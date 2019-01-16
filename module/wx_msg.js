@@ -85,6 +85,9 @@ exports.login_code = (req, res) => {
 // 获取templateid
 exports.get_templateid = (req, res) => {
   console.log('触发了获取模板字符串的接口');
+  console.log(access_token);
+  console.log(Boolean(access_token));
+  
   if(access_token){
     axios.post(`https://api.weixin.qq.com/cgi-bin/wxopen/template/library/list?access_token=${access_token}`, {
       data: {
@@ -92,13 +95,20 @@ exports.get_templateid = (req, res) => {
         count: 20
       }
     })
-        .then(res => {
+        .then(msg => {
           console.log('获取模板消息id成功');
-          console.log(res.data)
+          console.log(msg);
+          res.send({
+            status: 200,
+            msg
+          })
         })
         .catch(err => {
           console.log('获取模板消息失败');
-          console.log(err)
+          res.send({
+            status: 400,
+            err
+          })
         })
   }else{
     res.send('请先触发access_token')
