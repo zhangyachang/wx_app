@@ -1,7 +1,7 @@
 
 const axios = require('axios'),
-  {appInfo, access_token, pushToken} = require('../config'),
-    config = require('../config');
+  {appInfo, access_token, pushToken} = require('../config/wx_config'),
+    config = require('../config/wx_config');
 
 
 
@@ -31,9 +31,6 @@ exports.check_push = (req, res) => {
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
       nonce = req.query.nonce;
-  
-  
-  
   
 };
 
@@ -81,4 +78,25 @@ exports.login_code = (req, res) => {
     })
   }
   
+};
+
+
+
+// 获取templateid
+exports.get_templateid = (req, res) => {
+  console.log('触发了获取模板字符串的接口');
+  axios.post(`https://api.weixin.qq.com/cgi-bin/wxopen/template/library/list?access_token=${access_token}`, {
+    data: {
+      offset: 0,
+      count: 20
+    }
+  })
+      .then(res => {
+        console.log('获取模板消息id成功');
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log('获取模板消息失败');
+        console.log(err)
+      })
 };
