@@ -1,12 +1,13 @@
 
 const axios = require('axios'),
-  {appInfo, access_token, pushToken} = require('../config/wx_config'),
+  {appInfo, pushToken} = require('../config/wx_config'),
     config = require('../config/wx_config');
 
 
 
 // 获取 token
 exports.token = (req, res) => {
+  let access_token = config.access_token;
   if(access_token){
     res.send(access_token);
   }else{
@@ -84,19 +85,19 @@ exports.login_code = (req, res) => {
 
 // 获取templateid
 exports.get_templateid = (req, res) => {
-  console.log('触发了获取模板字符串的接口');
-  let access_token = config.access_token;
+  // console.log('触发了获取模板字符串的接口');
+  // let access_token = config.access_token;
+  let access_token = `17_TtWVacFLv5yZI_DKGOCldPcFc2awjxMExOfKPzl9FzgN2Zn9ftoRvPZOYfPWxfVQJ-N18kR7dV5Y49tHX4T3wUaP_7Ls0vqtcDD77KsLLTZzbXSVWa36_iksDHCb3gHpIFzOes8p8tUBHZX3YKNjAEAOAD`
   
-  console.log(access_token);
-  console.log(Boolean(access_token));
+  // console.log(access_token);
+  // console.log(Boolean(access_token));
   
   if(access_token){
     axios.post(`https://api.weixin.qq.com/cgi-bin/wxopen/template/library/list?access_token=${access_token}`, {
-      data: {
         offset: 0,
         count: 20
       }
-    })
+    )
         .then(msg => {
           console.log('获取模板消息id成功');
           console.log(msg);
@@ -106,6 +107,7 @@ exports.get_templateid = (req, res) => {
           })
         })
         .catch(err => {
+          console.log(err);
           console.log('获取模板消息失败');
           res.send({
             status: 400,
