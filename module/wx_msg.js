@@ -1,6 +1,6 @@
 
 const axios = require('axios'),
-  {appInfo, access_token, pushToken} = require('../config/wx_config'),
+  {appInfo, pushToken} = require('../config/wx_config'),
     config = require('../config/wx_config');
 
 
@@ -85,6 +85,8 @@ exports.login_code = (req, res) => {
 // 获取templateid
 exports.get_templateid = (req, res) => {
   console.log('触发了获取模板字符串的接口');
+  let access_token = config.access_token;
+  
   console.log(access_token);
   console.log(Boolean(access_token));
   
