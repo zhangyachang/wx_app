@@ -1,6 +1,6 @@
 
 const axios = require('axios'),
-  {appInfo, pushToken} = require('../config/wx_config'),
+  {appInfo, access_token, pushToken} = require('../config/wx_config'),
     config = require('../config/wx_config');
 
 
