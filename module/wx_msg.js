@@ -5,21 +5,49 @@ const axios = require('axios'),
 
 
 
-// 获取 token
+/**
+ *  获取 token
+ *   返回值 示例
+ *    成功
+ *   {
+ *     access_token: '18_vrDeYZhDhbqsGDCDvHNw-jkrsvFF4dQKA1RYQ2dkSCDFZ
+ *        QYelkXaJTQ3IWYs4fJV8Xlt9crMOCiBlOcLppISvxQq5SEJAyPeCQchZOf4eSsB7XS4eesCgtpJWsKGRL_n0HNLneSjT8ZOiWmvYMIgADAJXT',
+ *     status: 75200
+ *   }
+ *
+ *   失败
+ *   {
+ *     status: 75400,
+ *     msg: '请求错误'
+ *   }
+ *
+ */
+
+
+
 exports.token = (req, res) => {
   let access_token = config.access_token;
   if(access_token){
-    res.send(access_token);
+    res.send({
+      access_token: access_token,
+      status: 75200
+    });
   }else{
     axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appInfo.appId}&secret=${appInfo.secret}`)
         .then(msg => {
+          console.log('获取到的access_token的消息的格式为');
+          console.log(msg.data);
+          
           config.access_token = msg.data.access_token;
-          res.send(config.access_token);
+          res.send({
+            access_token: config.access_token,
+            status: 75200
+          });
         })
         .catch(err => {
           console.log(err);
           res.send({
-            status: 400,
+            status: 75400,
             msg: '请求错误'
           })
         });
