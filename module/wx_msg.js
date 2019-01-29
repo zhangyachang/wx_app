@@ -28,6 +28,7 @@ exports.token = (req, res) => {
 
 // 验证服务器推送url地址
 exports.check_push = (req, res) => {
+  
   console.log(req.query);
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
