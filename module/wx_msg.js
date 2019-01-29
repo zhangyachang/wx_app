@@ -1,7 +1,9 @@
 
 const axios = require('axios'),
   {appInfo, pushToken} = require('../config/wx_config'),
-    config = require('../config/wx_config');
+  fs = require('fs'),
+  {join} = require('path'),
+  config = require('../config/wx_config');
 
 
 
@@ -37,6 +39,7 @@ exports.token = (req, res) => {
         .then(msg => {
           console.log('获取到的access_token的消息的格式为');
           console.log(msg.data);
+          console.log(JSON.stringify(msg.data))
           
           config.access_token = msg.data.access_token;
           res.send({
@@ -148,4 +151,27 @@ exports.get_templateid = (req, res) => {
   }
   
   
+};
+
+/**
+ *  读取文件中的token，如果过期了就重新刷新它
+ *   @params 无
+ *
+ */
+
+exports.read_token = (req, res) => {
+
+
+  console.log('你发送过来了');
+  console.log(join(__dirname, '../', 'config', 'access_token'));
+  fs.readFile(join(__dirname, '../', 'config', 'access_token'), 'utf8', (err, data) => {
+    console.log('读取了文件信息吗');
+    if(err) throw err;
+    console.log(data);
+    console.log(JSON.parse(data));
+    console.log(data.access_token);
+
+
+    res.send('Hi');
+  })
 };

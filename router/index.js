@@ -38,10 +38,13 @@ router.get('/get_templateid', wx_msg.get_templateid);
 
 /**
  *  读取文件的信息
- *
+ *  参数 无
+ *    读取文件中的token
  *
  *
  */
+
+router.get('/read_token', wx_msg.read_token);
 
 
 
