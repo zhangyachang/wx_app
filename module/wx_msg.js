@@ -1,6 +1,5 @@
-
 const axios = require('axios'),
-  {appInfo, pushToken} = require('../config/wx_config'),
+  {app, pushToken} = require('../config/wx_config'),
   fs = require('fs'),
   {join} = require('path'),
   config = require('../config/wx_config');
@@ -8,7 +7,9 @@ const axios = require('axios'),
 
 
 /**
- *  获取 token
+ *   版本 0.0.1
+ *
+ *
  *   返回值 示例
  *    成功
  *   {
@@ -20,42 +21,25 @@ const axios = require('axios'),
  *   失败
  *   {
  *     status: 75400,
- *     msg: '请求错误'
+ *     errmsg: '请求错误'
  *   }
  *
+ *
  */
-
-
-
-exports.token = (req, res) => {
-  let access_token = config.access_token;
-  if(access_token){
+exports.accessToken = (req, res) => {
+  if(config.access_token){
     res.send({
-      access_token: access_token,
+      access_token: config.access_token,
       status: 75200
     });
   }else{
-    axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appInfo.appId}&secret=${appInfo.secret}`)
-        .then(msg => {
-          console.log('获取到的access_token的消息的格式为');
-          console.log(msg.data);
-          console.log(JSON.stringify(msg.data))
-          
-          config.access_token = msg.data.access_token;
-          res.send({
-            access_token: config.access_token,
-            status: 75200
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.send({
-            status: 75400,
-            msg: '请求错误'
-          })
-        });
+    res.send({
+      errmsg: '请求错误',
+      status: 75400
+    });
   }
 };
+
 
 // 验证服务器推送url地址
 exports.check_push = (req, res) => {
@@ -150,28 +134,4 @@ exports.get_templateid = (req, res) => {
     res.send('请先触发access_token')
   }
   
-  
-};
-
-/**
- *  读取文件中的token，如果过期了就重新刷新它
- *   @params 无
- *
- */
-
-exports.read_token = (req, res) => {
-
-
-  console.log('你发送过来了');
-  console.log(join(__dirname, '../', 'config', 'access_token'));
-  fs.readFile(join(__dirname, '../', 'config', 'access_token'), 'utf8', (err, data) => {
-    console.log('读取了文件信息吗');
-    if(err) throw err;
-    console.log(data);
-    console.log(JSON.parse(data));
-    console.log(data.access_token);
-
-
-    res.send('Hi');
-  })
 };

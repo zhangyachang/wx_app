@@ -1,12 +1,16 @@
 module.exports = {
-  port: 3000,
-  appInfo: {
+  port: 3000,  //监听的端口号
+  app: { //
     appId: "wx5a6f4750ba3ee7e6",
-    secret: "096707e8c3caefa57b83186cf9875d7c",
-    templateId: "INY2z45CUuptLDZ_lF8AcSmIve8thiTUtinLxJ"
+    secret: "096707e8c3caefa57b83186cf9875d7c"
+  },
+  url: {
+    ip: 'https://api.weixin.qq.com',
+    getAccessTokenUrl: '/cgi-bin/token?grant_type=client_credential'
+    
   },
   access_token: '',
-  pushToken: 'zhangyachangToken', // 服务器推送Token
+  pushToken: '', // 服务器推送Token
   
   
 };
@@ -18,6 +22,6 @@ module.exports = {
   secret : 096707e8c3caefa57b83186cf9875d7c
   模板id : dj-INY2z45CUuptLDZ_lF8AcSmIve8thiTUtinLxJ-E
   
- */
+*/
 
 
