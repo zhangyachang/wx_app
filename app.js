@@ -20,6 +20,7 @@ app.all('*', function(req, res, next) {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/', express.static(join(__dirname, 'public')));
 
@@ -27,10 +28,12 @@ app.use('/', require('./router/index'));
 
 // 初始化 项目的配置等
 
-init.init().then(res => {
-  console.log(res);
-  console.log('项目启动成功');
-});
+init.init();
+
+// init.init().then(res => {
+//   console.log(res);
+//   console.log('项目启动成功');
+// });
 
 
 http.createServer(app).listen(port, () => {

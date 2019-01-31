@@ -9,12 +9,14 @@ router.get('/', (req, res) => {
   res.send('server is success run');
 });
 
+
 /**
  *  获取 access_token
  *   @params  无
  */
-
 router.get('/accessToken', wx_msg.accessToken);
+
+
 
 // 配置前后端的推送消息
 router.get('/msg', wx_msg.check_push);
@@ -25,7 +27,7 @@ router.get('/msg', wx_msg.check_push);
  *  @params  code
  *
  */
-router.post('/login_code', wx_msg.login_code);
+router.post('/code', wx_msg.code);
 
 
 // 在后端服务器中调用，获取这些模板的id
