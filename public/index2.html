@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    index.html
+
+    <script>
+
+
+        let fn1 = function() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(2000);
+            },2000)
+          })
+        };
+        let fn2 = function() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(3000);
+            },3000)
+          })
+        };
+
+        async function f() {
+          console.log('进入了函数内部');
+
+          let a = await Promise.all([fn1(), fn2()]);
+          console.log(a);
+
+          console.log('两个执行完了？？');
+        }
+
+
+        f();
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>
