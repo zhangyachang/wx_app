@@ -82,12 +82,36 @@ exports.handle_customer_sevice = (req, res) => {
   console.log(req.body);
   console.log('接收到了消息，请求url中');
   console.log(req.query);
-  res.send('success');
-  // 开发者先检测签名的正确性
+  let signature = req.query.signature,
+      timestamp = req.query.timestamp,
+      nonce = req.query.nonce,
+      openid = req.query.openid,
+      encrypt_type = req.query.encrypt_type,
+      msg_signature = req.query.msg_signature,
+      msg_encrypt = req.body.Encrypt; // 密文体
+  console.log('密文体为');
+  console.log(msg_encrypt);
+  
+   
+      
+  console.log('解析之后的内容为');
+  console.log(timestamp, signature, nonce, msg_signature, encrypt_type, openid, msg_encrypt);
   
   
+  // 开发者计算签名
+  let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt]);
+  console.log('开发者计算签名');
+  console.log(devMsgSignature);
+  console.log(msg_signature);
   
-  
+ 
+  if(devMsgSignature == msg_signature){
+    console.log('success');
+    res.send('success');
+  }else{
+    console.log('error');
+    res.send('error');
+  }
 };
 
 
