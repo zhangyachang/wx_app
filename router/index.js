@@ -19,7 +19,7 @@ router.get('/accessToken', wx_msg.accessToken);
 
 
 // 配置前后端的推送消息
-router.get('/msg', wx_msg.check_push);
+router.get('/checkPushMsg', wx_msg.check_push);
 
 /**
  *

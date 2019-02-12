@@ -1,10 +1,11 @@
 const axios = require('axios'),
   {app, pushToken} = require('../config/wx_config'),
   fs = require('fs'),
+  crypto = require('crypto'),
   {join} = require('path'),
   config = require('../config/wx_config');
 
-
+ 
 
 /**
  *   版本 0.0.1
@@ -41,14 +42,30 @@ exports.accessToken = (req, res) => {
 };
 
 
-// 验证服务器推送url地址
+/*
+  验证服务器推送url地址
+  开发者提交信息后，微信服务器将发送GET请求到填写的服务器URL上，GET请求携带参数如下
+     @params signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数，nonce参数
+     @params timestamp	时间戳
+     @params nonce	随机数
+     @params echostr	随机字符串
+*/
 exports.check_push = (req, res) => {
-  
   console.log(req.query);
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
       nonce = req.query.nonce;
-  
+  console.log('推送消息为');
+  console.log(pushToken);
+  console.log('传递的参数为');
+  console.log(signature, timestamp, nonce);
+  console.log('进行字典排序后');
+  console.log([pushToken, timestamp, nonce].sort().join(''));
+  let a = crypto.createHash('sha1').update([pushToken, timestamp, nonce].sort().join('')).digest('hex')
+  console.log('加密后的东西');
+  console.log(a);
+  console.log('微信传递过来的加密签名');
+  console.log(signature);
 };
 
 
