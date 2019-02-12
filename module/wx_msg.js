@@ -54,7 +54,8 @@ exports.check_push = (req, res) => {
   console.log(req.query);
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
-      nonce = req.query.nonce;
+      nonce = req.query.nonce,
+      echostr = req.query.echostr;
   console.log('token值为');
   console.log(pushToken);
   console.log('传递的参数为');
@@ -67,10 +68,8 @@ exports.check_push = (req, res) => {
   console.log('微信传递过来的加密签名');
   console.log(signature);
   if(a == signature){
-    res.send({
-      status: 200,
-      data: 'check push msg success'
-    })
+    // 如果验证成功则原封不动的返回
+    res.send(echostr);
   }else{
     res.send({
       status: 400,
