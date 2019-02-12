@@ -55,7 +55,7 @@ exports.check_push = (req, res) => {
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
       nonce = req.query.nonce;
-  console.log('推送消息为');
+  console.log('token值为');
   console.log(pushToken);
   console.log('传递的参数为');
   console.log(signature, timestamp, nonce);
