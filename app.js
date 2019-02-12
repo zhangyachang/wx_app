@@ -30,12 +30,6 @@ app.use('/', require('./router/index'));
 
 init.init();
 
-// init.init().then(res => {
-//   console.log(res);
-//   console.log('项目启动成功');
-// });
-
-
 http.createServer(app).listen(port, () => {
   console.log(port+'端口服务启动成功');
 });

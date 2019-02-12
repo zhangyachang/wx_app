@@ -6,12 +6,12 @@ module.exports = {
   },
   url: {
     ip: 'https://api.weixin.qq.com',
-    getAccessTokenUrl: '/cgi-bin/token?grant_type=client_credential'
+    getAccessTokenUrl: '/cgi-bin/token?grant_type=client_credential', // 获取token的url地址
     
   },
   access_token: '',
   pushToken: '', // 服务器推送Token
-  
+  data: "第一次的数据"
   
 };
 

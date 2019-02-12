@@ -67,7 +67,6 @@ exports.check_push = (req, res) => {
  */
 exports.code = (req, res) => {
   console.log(req.body);
-  console.log(req.body.code);
   if(req.body.code){
     // 这里去发送code去微信服务器去验证 返回来 session_key + openid
     axios.get('https://api.weixin.qq.com/sns/jscode2session',{
@@ -113,7 +112,6 @@ exports.code = (req, res) => {
       status: 400
     })
   }
-  
 };
 
 

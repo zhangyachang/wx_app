@@ -4,8 +4,8 @@ const config = require('../config/wx_config'),
 
 module.exports = {
   init() {
-      this.getAccessToken();
-      this.auto_refreshAccessToken();
+    this.getAccessToken();
+    this.auto_refreshAccessToken();
   },
   auto_refreshAccessToken(){
     // 每隔7000s去刷新一次 access_token
