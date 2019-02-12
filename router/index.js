@@ -29,6 +29,18 @@ router.get('/checkPushMsg', wx_msg.check_push);
  */
 router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
 
+/**
+ *  测试post接口
+ *
+ */
+
+router.post('/testPost', (req, res) => {
+  console.log(req.query);
+  console.log(req.body);
+  res.send('hello world');
+  
+});
+
 
 /**
  *

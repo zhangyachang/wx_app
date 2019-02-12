@@ -3,6 +3,7 @@ const axios = require('axios'),
   fs = require('fs'),
   crypto = require('crypto'),
   {join} = require('path'),
+  {sha1} = require('../utils/utils'),
   config = require('../config/wx_config');
 
  
@@ -56,7 +57,8 @@ exports.check_push = (req, res) => {
       timestamp = req.query.timestamp,
       nonce = req.query.nonce,
       echostr = req.query.echostr;
-  let a = crypto.createHash('sha1').update([pushToken, timestamp, nonce].sort().join('')).digest('hex');
+  
+  let a = sha1([pushToken, timestamp, nonce].sort().join(''));
 
   if(a == signature){
     // 如果验证成功则原封不动的返回
@@ -81,6 +83,11 @@ exports.handle_customer_sevice = (req, res) => {
   console.log('接收到了消息，请求url中');
   console.log(req.query);
   res.send('success');
+  // 开发者先检测签名的正确性
+  
+  
+  
+  
 };
 
 
