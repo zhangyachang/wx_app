@@ -97,9 +97,10 @@ exports.handle_customer_sevice = (req, res) => {
   console.log('解析之后的内容为');
   console.log(timestamp, signature, nonce, msg_signature, encrypt_type, openid, msg_encrypt);
   
-  
+  console.log('字典排序');
+  console.log([pushToken, timestamp, nonce, msg_encrypt].sort().join(''));
   // 开发者计算签名
-  let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt]);
+  let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt].sort().join(''));
   console.log('开发者计算签名');
   console.log(devMsgSignature);
   console.log(msg_signature);
