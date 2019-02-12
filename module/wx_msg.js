@@ -61,11 +61,22 @@ exports.check_push = (req, res) => {
   console.log(signature, timestamp, nonce);
   console.log('进行字典排序后');
   console.log([pushToken, timestamp, nonce].sort().join(''));
-  let a = crypto.createHash('sha1').update([pushToken, timestamp, nonce].sort().join('')).digest('hex')
+  let a = crypto.createHash('sha1').update([pushToken, timestamp, nonce].sort().join('')).digest('hex');
   console.log('加密后的东西');
   console.log(a);
   console.log('微信传递过来的加密签名');
   console.log(signature);
+  if(a == signature){
+    res.send({
+      status: 200,
+      data: 'check push msg success'
+    })
+  }else{
+    res.send({
+      status: 400,
+      data: "check msg error"
+    })
+  }
 };
 
 
