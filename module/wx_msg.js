@@ -56,17 +56,8 @@ exports.check_push = (req, res) => {
       timestamp = req.query.timestamp,
       nonce = req.query.nonce,
       echostr = req.query.echostr;
-  console.log('token值为');
-  console.log(pushToken);
-  console.log('传递的参数为');
-  console.log(signature, timestamp, nonce);
-  console.log('进行字典排序后');
-  console.log([pushToken, timestamp, nonce].sort().join(''));
   let a = crypto.createHash('sha1').update([pushToken, timestamp, nonce].sort().join('')).digest('hex');
-  console.log('加密后的东西');
-  console.log(a);
-  console.log('微信传递过来的加密签名');
-  console.log(signature);
+
   if(a == signature){
     // 如果验证成功则原封不动的返回
     res.send(echostr);
@@ -92,6 +83,7 @@ exports.check_push = (req, res) => {
  *
  *
  */
+
 exports.code = (req, res) => {
   console.log(req.body);
   if(req.body.code){
