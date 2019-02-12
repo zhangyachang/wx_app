@@ -17,9 +17,18 @@ router.get('/', (req, res) => {
 router.get('/accessToken', wx_msg.accessToken);
 
 
-
-// 配置前后端的推送消息
+/**
+ * 配置前后端的推送消息
+ *
+ */
 router.get('/checkPushMsg', wx_msg.check_push);
+
+/**
+ * 接收用户发送给小程序客服的消息
+ *
+ */
+router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
+
 
 /**
  *
