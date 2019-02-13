@@ -40,14 +40,13 @@ exports.decrypt = function (obj, type) {
         const cipherEncoding = 'base64';
         const clearEncoding = 'utf8';
         console.log('第一步');
+        console.log('aesKey===》',aesKey);
         const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
         
         if(type == 'msg'){
             cipher.setAutoPadding(false)
         }
         console.log('第二步');
-        console.log('obj.text',obj.text);
-        console.log('clearEncoding',cipher.final(clearEncoding));
         let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
         console.log('第三部');
         
