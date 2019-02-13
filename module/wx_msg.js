@@ -123,7 +123,7 @@ exports.handle_customer_sevice = (req, res) => {
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
                     tourser: returnObj.FromUserName,
-                    msgtype: text,
+                    msgtype: "text",
                     content: "查询的字符串为什么东西"
                 })
                 .then(res => {
