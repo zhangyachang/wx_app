@@ -2,16 +2,20 @@
 const crypto = require('crypto');
 /*
     @explain sh1加密
-    @version 1.0.0
-    @author : Z
-    @data : 2019-2-12
+    @version 1.0.1
     
-    @params : string
+        1.0.0版本传递过来的是排序过的字符串
+        1.0.1版本升级，只需要把要排序的字符串传递过来就可以
+        
+    @author : Z
+    @data : 2019-2-13
+    
+    @params : a,b,c……
     @return : String 加密完成后的字符串
  */
 
-exports.sha1 = function (str) {
-    return crypto.createHash('sha1').update(str).digest('hex');
+exports.sha1 = function (...arr) {
+    return crypto.createHash('sha1').update(arr.sort().join('')).digest('hex');
 };
 
 /*

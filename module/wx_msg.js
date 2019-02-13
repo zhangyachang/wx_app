@@ -59,7 +59,7 @@ exports.check_push = (req, res) => {
       nonce = req.query.nonce,
       echostr = req.query.echostr;
   
-  let a = sha1([pushToken, timestamp, nonce].sort().join(''));
+  let a = sha1(pushToken, timestamp, nonce);
 
   if(a == signature){
     // 如果验证成功则原封不动的返回
@@ -94,7 +94,7 @@ exports.handle_customer_sevice = (req, res) => {
         msg_encrypt = req.body.Encrypt; // 密文体
     
     // 开发者计算签名
-    let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt].sort().join(''));
+    let devMsgSignature = sha1(pushToken,timestamp, nonce, msg_encrypt);
     
     if(devMsgSignature == msg_signature){
         console.log('验证成功,是从微信服务器转发过来的消息');
