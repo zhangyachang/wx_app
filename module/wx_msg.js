@@ -122,8 +122,8 @@ exports.handle_customer_sevice = (req, res) => {
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
                     touser: decryptMessage.FromUserName,
                     msgtype: "text",
-                    "text": {
-                        "content": "发送消息"
+                    text: {
+                        content: "发送消息"
                     }
                 })
                 .then(res => {
