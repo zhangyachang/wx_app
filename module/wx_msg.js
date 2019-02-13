@@ -72,10 +72,12 @@ exports.check_push = (req, res) => {
 };
 
 
-/*
-  客服接收到的消息
-    handle_customer_sevice
-*/
+/**
+ * 消息体验证和解密
+ *  客服接收到的消息
+ *  handle_customer_sevice
+ *
+ */
 
 exports.handle_customer_sevice = (req, res) => {
   console.log('接收到了消息，请求体中');
@@ -89,31 +91,21 @@ exports.handle_customer_sevice = (req, res) => {
       encrypt_type = req.query.encrypt_type,
       msg_signature = req.query.msg_signature,
       msg_encrypt = req.body.Encrypt; // 密文体
-  console.log('密文体为');
-  console.log(msg_encrypt);
   
-   
-      
-  console.log('解析之后的内容为');
-  console.log(timestamp, signature, nonce, msg_signature, encrypt_type, openid, msg_encrypt);
-  
-  console.log('字典排序');
-  console.log([pushToken, timestamp, nonce, msg_encrypt].sort().join(''));
   // 开发者计算签名
   let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt].sort().join(''));
-  console.log('开发者计算签名');
-  console.log(devMsgSignature);
-  console.log(msg_signature);
   
- 
   if(devMsgSignature == msg_signature){
     console.log('success');
     res.send('success');
+    Base64.decode(msg_encrypt);
   }else{
     console.log('error');
     res.send('error');
   }
 };
+
+
 
 
 
@@ -126,8 +118,6 @@ exports.handle_customer_sevice = (req, res) => {
  *
  *    重复发送code {status: 400, msg:'code only use one'}
  *    服务器内部错误 {mes: '服务器繁忙请稍后再试',status: 500}
- *
- *
  */
 
 exports.code = (req, res) => {
