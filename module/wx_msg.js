@@ -117,12 +117,15 @@ exports.handle_customer_sevice = (req, res) => {
                 touser   用户的openid
                 msgtype   消息类型
          */
+    
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
-                    touser: decryptMessage.FromUserName,
-                    msgtype: "text",
-                    content: "发送消息"
+                    "touser": decryptMessage.FromUserName,
+                    "msgtype": "text",
+                    "text": {
+                        "content": "Hello World"
+                    }
                 })
                 .then(res => {
                     console.log('消息接口发送成功');
