@@ -108,9 +108,10 @@ exports.handle_customer_sevice = (req, res) => {
         console.log('解密后的消息');
         console.log(returnObj);
         console.log('解密后的消息内容');
-        console.log(JSON.parse(returnObj.msg));
+        const decryptMessage = JSON.parse(returnObj.msg);
+        console.log(decryptMessage);
         console.log('解密后的详细内容');
-        console.log(JSON.parse(returnObj.msg).Content);
+        console.log(decryptMessage.Content);
         /*
             @params
                 access_token  调用接口凭证
@@ -122,12 +123,12 @@ exports.handle_customer_sevice = (req, res) => {
          */
         console.log('这里的openid难道不是同一个东西吗');
         console.log(openid);
-        console.log(returnObj.FromUserName);
-        console.log(typeof openid, typeof returnObj.FromUserName);
+        console.log(decryptMessage.FromUserName);
+        console.log(typeof openid, typeof decryptMessage.FromUserName);
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
-                    tourser: returnObj.FromUserName,
+                    tourser: decryptMessage.FromUserName,
                     msgtype: "text",
                     content: "查询的字符串为什么东西"
                 })
