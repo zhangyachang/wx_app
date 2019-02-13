@@ -126,7 +126,10 @@ exports.handle_customer_sevice = (req, res) => {
         console.log({
             touser: decryptMessage.FromUserName,
             msgtype: "text",
-            content: "查询的字符串为什么东西"
+            // 这里是修改了吗 为什么要这样发送呢，官网不说清楚？？
+            text: {
+                "content": "Hello World"
+            }
         });
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
