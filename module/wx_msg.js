@@ -117,12 +117,6 @@ exports.handle_customer_sevice = (req, res) => {
                 touser   用户的openid
                 msgtype   消息类型
          */
-     
-        console.log('请求发送给用户的接口地址');
-        console.log(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token);
-        console.log('发送给微信的数据内容信息');
-        
-        
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
@@ -132,6 +126,8 @@ exports.handle_customer_sevice = (req, res) => {
                 })
                 .then(res => {
                     console.log('消息接口发送成功');
+                    console.log('****************************');
+                    console.log(res.data);
                     if(res.data.errcode == 0){
                         console.log('消息发送成功');
                     }else if(res.data.errcode == 40001){
