@@ -53,10 +53,12 @@ exports.decrypt = function (obj, type) {
         console.log(this_text);
         
         console.log('第四部');
+        var rg=/$"}"/g;
+        console.log("fsdf}sf")
         return {
             noncestr:this_text.substring(0,16),
             msg_len:this_text.substring(16,20),
-            msg:this_text.substring(20,this_text.length-obj.corpid.length),
+            msg:this_text.substring(20,str.lastIndexOf("}")),
             corpid:this_text.substring(this_text.length-obj.corpid.length,this_text.length)
         }
     }catch (e) {

@@ -9,36 +9,9 @@
     index.html
 
     <script>
-
-
-        let fn1 = function() {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve(2000);
-            },2000)
-          })
-        };
-        let fn2 = function() {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              resolve(3000);
-            },3000)
-          })
-        };
-
-        async function f() {
-          console.log('进入了函数内部');
-
-          let a = await Promise.all([fn1(), fn2()]);
-          console.log(a);
-
-          console.log('两个执行完了？？');
-        }
-
-
-        f();
-
-
+        let str = '{\n"ToUserName": "gh_c4e90af44446",\n"FromUserName": "oSHxV48mzVFD-6-Urf85cyj0bklY",\n"CreateTime": 1550057347,\n"MsgType": "text",\n"Content": "我发送的消息",\n"MsgId": 22191484999942699\n}\nwx5a6f4750ba3ee7e6\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c'
+        // var rg=/}/g;
+        console.log(str.lastIndexOf("}"))
 
 
 
