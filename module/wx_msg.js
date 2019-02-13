@@ -3,7 +3,7 @@ const axios = require('axios'),
   fs = require('fs'),
   crypto = require('crypto'),
   {join} = require('path'),
-  {sha1} = require('../utils/utils'),
+  {sha1, decrypt} = require('../utils/utils'),
   config = require('../config/wx_config');
 
  
@@ -80,29 +80,37 @@ exports.check_push = (req, res) => {
  */
 
 exports.handle_customer_sevice = (req, res) => {
-  console.log('接收到了消息，请求体中');
-  console.log(req.body);
-  console.log('接收到了消息，请求url中');
-  console.log(req.query);
-  let signature = req.query.signature,
-      timestamp = req.query.timestamp,
-      nonce = req.query.nonce,
-      openid = req.query.openid,
-      encrypt_type = req.query.encrypt_type,
-      msg_signature = req.query.msg_signature,
-      msg_encrypt = req.body.Encrypt; // 密文体
-  
-  // 开发者计算签名
-  let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt].sort().join(''));
-  
-  if(devMsgSignature == msg_signature){
-    console.log('success');
-    res.send('success');
-    Base64.decode(msg_encrypt);
-  }else{
-    console.log('error');
-    res.send('error');
-  }
+    console.log('接收到了消息，请求体中');
+    console.log(req.body);
+    console.log('接收到了消息，请求url中');
+    console.log(req.query);
+    let signature = req.query.signature,
+        timestamp = req.query.timestamp,
+        nonce = req.query.nonce,
+        openid = req.query.openid,
+        encrypt_type = req.query.encrypt_type,
+        msg_signature = req.query.msg_signature,
+        msg_encrypt = req.body.Encrypt; // 密文体
+    
+    // 开发者计算签名
+    let devMsgSignature = sha1([pushToken,timestamp, nonce, msg_encrypt].sort().join(''));
+    
+    if(devMsgSignature == msg_signature){
+        console.log('验证成功,是从微信服务器转发过来的消息');
+        
+        let returnObj = decrypt({
+            AESKey: config.server.EncodingAESKey,
+            text: msg_encrypt,
+            corpid: config.app.appId
+        });
+        
+        console.log('解密后的消息');
+        console.log(returnObj);
+        res.send('success');
+    }else{
+        console.log('error');
+        res.send('error');
+    }
 };
 
 
