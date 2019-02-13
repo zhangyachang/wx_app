@@ -50,7 +50,9 @@ exports.decrypt = function (obj, type) {
         console.log('第二步');
         let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
         console.log('第三部');
+        console.log(this_text);
         
+        console.log('第四部');
         return {
             noncestr:this_text.substring(0,16),
             msg_len:this_text.substring(16,20),
