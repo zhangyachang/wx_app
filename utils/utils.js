@@ -44,13 +44,11 @@ exports.decrypt = function (obj, type) {
         const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
         
         
-        if(type == 'msg'){
+        // if(type == 'msg'){
             cipher.setAutoPadding(false)
-        }
+        // }
         console.log('第二步');
-        let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) //+ cipher.final(clearEncoding);
-        console.log('第9步');
-        cipher.final(clearEncoding)
+        let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
         console.log('第三部');
         
         return {
