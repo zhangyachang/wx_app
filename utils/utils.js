@@ -45,7 +45,7 @@ exports.decrypt = function (obj, type) {
         
         
         // if(type == 'msg'){
-            cipher.setAutoPadding(true);
+            cipher.setAutoPadding(false);
         // }
         console.log('第二步');
         let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
