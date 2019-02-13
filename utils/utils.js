@@ -39,11 +39,13 @@ exports.decrypt = function (obj, type) {
         let aesKey = Buffer.from(obj.AESKey + '=', 'base64');
         const cipherEncoding = 'base64';
         const clearEncoding = 'utf8';
+        console.log('第一步');
         const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
-    
+        
         if(type == 'msg'){
             cipher.setAutoPadding(false)
         }
+        console.log('第二步');
         let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
         return {
             noncestr:this_text.substring(0,16),
