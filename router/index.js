@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
 router.get('/accessToken', wx_msg.accessToken);
 
 
+
 /**
  * 配置前后端的推送消息
  *

@@ -94,7 +94,7 @@ exports.handle_customer_sevice = (req, res) => {
         msg_encrypt = req.body.Encrypt; // 密文体
     
     // 开发者计算签名
-    let devMsgSignature = sha1(pushToken,timestamp, nonce, msg_encrypt);
+    let devMsgSignature = sha1(pushToken, timestamp, nonce, msg_encrypt);
     
     if(devMsgSignature == msg_signature){
         console.log('验证成功,是从微信服务器转发过来的消息');
@@ -111,6 +111,30 @@ exports.handle_customer_sevice = (req, res) => {
         console.log(JSON.parse(returnObj.msg));
         console.log('解密后的详细内容');
         console.log(JSON.parse(returnObj.msg).Content);
+        /*
+            @params
+                access_token  调用接口凭证
+                tourser   用户的openid
+                msgtype   消息类型
+                
+                
+        
+         */
+        if(JSON.parse(returnObj.msg).Content == '值班'){
+            axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
+                    tourser: returnObj.FromUserName,
+                    msgtype: text,
+                    content: "查询的字符串为什么东西"
+                })
+                .then(res => {
+                    console.log('消息接口发送成功');
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.log('错误消息');
+                    console.log(err);
+                })
+        }
         res.send('success');
     }else{
         console.log('error');
