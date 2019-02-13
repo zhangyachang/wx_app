@@ -35,21 +35,27 @@ exports.sha1 = function (...arr) {
 */
 
 exports.decrypt = function (obj, type) {
-    let aesKey = Buffer.from(obj.AESKey + '=', 'base64');
-    const cipherEncoding = 'base64';
-    const clearEncoding = 'utf8';
-    const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
+    try{
+        let aesKey = Buffer.from(obj.AESKey + '=', 'base64');
+        const cipherEncoding = 'base64';
+        const clearEncoding = 'utf8';
+        const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
     
-    if(type == 'msg'){
-        cipher.setAutoPadding(false)
+        if(type == 'msg'){
+            cipher.setAutoPadding(false)
+        }
+        let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
+        return {
+            noncestr:this_text.substring(0,16),
+            msg_len:this_text.substring(16,20),
+            msg:this_text.substring(20,this_text.length-obj.corpid.length),
+            corpid:this_text.substring(this_text.length-obj.corpid.length,this_text.length)
+        }
+    }catch (e) {
+        console.log('捕获到的错误信息');
+        console.log(e);
     }
-    let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
-    return {
-        noncestr:this_text.substring(0,16),
-        msg_len:this_text.substring(16,20),
-        msg:this_text.substring(20,this_text.length-obj.corpid.length),
-        corpid:this_text.substring(this_text.length-obj.corpid.length,this_text.length)
-    }
+    
 };
 
 
