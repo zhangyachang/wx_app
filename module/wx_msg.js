@@ -116,7 +116,7 @@ exports.handle_customer_sevice = (req, res) => {
             详细参数请查看官网 消息 https://developers.weixin.qq.com/miniprogram/dev/api/sendCustomerMessage.html
             @params
                 access_token  调用接口凭证
-                tourser   用户的openid
+                touser   用户的openid
                 msgtype   消息类型
          */
      
@@ -124,14 +124,14 @@ exports.handle_customer_sevice = (req, res) => {
         console.log(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token);
         console.log('发送给微信的数据内容信息');
         console.log({
-            tourser: decryptMessage.FromUserName,
+            touser: decryptMessage.FromUserName,
             msgtype: "text",
             content: "查询的字符串为什么东西"
         });
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
-                    tourser: decryptMessage.FromUserName,
+                    touser: decryptMessage.FromUserName,
                     msgtype: "text",
                     content: "查询的字符串为什么东西"
                 })
