@@ -42,15 +42,14 @@ exports.decrypt = function (obj, type) {
         console.log('第一步');
         console.log('aesKey===》',aesKey);
         const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
-        console.log('报错1111');
-        cipher.final(clearEncoding)
-        console.log('报错22222');
+        
         
         if(type == 'msg'){
             cipher.setAutoPadding(false)
         }
         console.log('第二步');
-        let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
+        let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) //+ cipher.final(clearEncoding);
+        console.log(cipher)
         console.log('第三部');
         
         return {
