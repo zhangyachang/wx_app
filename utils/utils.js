@@ -58,7 +58,7 @@ exports.decrypt = function (obj, type) {
         return {
             noncestr:this_text.substring(0,16),
             msg_len:this_text.substring(16,20),
-            msg:this_text.substring(20,str.lastIndexOf("}")),
+            msg:this_text.substring(20,this_text.lastIndexOf("}")),
             corpid:this_text.substring(this_text.length-obj.corpid.length,this_text.length)
         }
     }catch (e) {
