@@ -49,7 +49,8 @@ exports.decrypt = function (obj, type) {
         }
         console.log('第二步');
         let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) //+ cipher.final(clearEncoding);
-        console.log(cipher)
+        console.log('第9步');
+        cipher.final(clearEncoding)
         console.log('第三部');
         
         return {
