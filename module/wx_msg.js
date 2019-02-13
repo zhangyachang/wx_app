@@ -133,7 +133,7 @@ exports.handle_customer_sevice = (req, res) => {
                 })
                 .then(res => {
                     console.log('消息接口发送成功');
-                    console.log(res)
+                    console.log(res.data);
                 })
                 .catch(err => {
                     console.log('错误消息');
