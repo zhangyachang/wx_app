@@ -1,14 +1,22 @@
 
 const crypto = require('crypto');
-// sha1加密
+/*
+    @explain sh1加密
+    @version 1.0.0
+    @author : Z
+    @data : 2019-2-12
+    
+    @params : string
+    @return : String 加密完成后的字符串
+ */
 
 exports.sha1 = function (str) {
-  return crypto.createHash('sha1').update(str).digest('hex');
+    return crypto.createHash('sha1').update(str).digest('hex');
 };
 
 /*
     @explain: 微信的消息密文解密方法
-    
+    @version 1.0.0
     @author: Z
     @data :2019-02-13
     @params:
@@ -41,4 +49,13 @@ exports.decrypt = function (obj, type) {
     }
 };
 
+
+/*
+    @explain 微信消息的加密方法
+    @version 1.0.0
+    @data 2019-2-13
+    @params
+    
+    @return
+*/
 

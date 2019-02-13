@@ -6,7 +6,6 @@ const axios = require('axios'),
   {sha1, decrypt} = require('../utils/utils'),
   config = require('../config/wx_config');
 
- 
 
 /**
  *   版本 0.0.1
@@ -28,29 +27,31 @@ const axios = require('axios'),
  *
  *
  */
+
 exports.accessToken = (req, res) => {
-  if(config.access_token){
+    if(config.access_token){
+        res.send({
+            access_token: config.access_token,
+            status: 75200
+        });
+    }else{
     res.send({
-      access_token: config.access_token,
-      status: 75200
-    });
-  }else{
-    res.send({
-      errmsg: '请求错误',
-      status: 75400
-    });
-  }
+            errmsg: '请求错误',
+            status: 75400
+        });
+    }
 };
 
 
 /*
-  验证服务器推送url地址
-  开发者提交信息后，微信服务器将发送GET请求到填写的服务器URL上，GET请求携带参数如下
-     @params signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数，nonce参数
-     @params timestamp	时间戳
-     @params nonce	随机数
-     @params echostr	随机字符串
+    验证服务器推送url地址
+        开发者提交信息后，微信服务器将发送GET请求到填写的服务器URL上，GET请求携带参数如下
+        @params signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数，nonce参数
+        @params timestamp	时间戳
+        @params nonce	随机数
+        @params echostr	随机字符串
 */
+
 exports.check_push = (req, res) => {
   console.log(req.query);
   let signature = req.query.signature,
