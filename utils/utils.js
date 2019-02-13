@@ -28,7 +28,6 @@ exports.decrypt = function (obj, type) {
     const cipherEncoding = 'base64';
     const clearEncoding = 'utf8';
     const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
-    console.log(cipher);
     
     if(type == 'msg'){
         cipher.setAutoPadding(false)

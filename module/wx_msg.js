@@ -106,6 +106,10 @@ exports.handle_customer_sevice = (req, res) => {
         
         console.log('解密后的消息');
         console.log(returnObj);
+        console.log('解密后的消息内容');
+        console.log(JSON.parse(returnObj.msg));
+        console.log('解密后的详细内容');
+        console.log(JSON.parse(returnObj.msg).Content);
         res.send('success');
     }else{
         console.log('error');
