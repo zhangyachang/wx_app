@@ -24,8 +24,6 @@ const axios = require('axios'),
  *     status: 75400,
  *     errmsg: '请求错误'
  *   }
- *
- *
  */
 
 exports.accessToken = (req, res) => {
@@ -73,11 +71,11 @@ exports.check_push = (req, res) => {
 };
 
 
-/**
- * 消息体验证和解密
- *  客服接收到的消息
- *  handle_customer_sevice
- *
+/*
+    消息体验证和解密
+        客服接收到的消息
+        handle_customer_sevice
+        
  */
 
 exports.handle_customer_sevice = (req, res) => {
@@ -123,23 +121,24 @@ exports.handle_customer_sevice = (req, res) => {
         console.log('请求发送给用户的接口地址');
         console.log(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token);
         console.log('发送给微信的数据内容信息');
-        console.log({
-            touser: decryptMessage.FromUserName,
-            msgtype: "text",
-            // 这里是修改了吗 为什么要这样发送呢，官网不说清楚？？
-            text: {
-                "content": "Hello World"
-            }
-        });
+        
+        
         
         if(JSON.parse(returnObj.msg).Content == '值班'){
             axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
                     touser: decryptMessage.FromUserName,
                     msgtype: "text",
-                    content: "查询的字符串为什么东西"
+                    content: "发送消息"
                 })
                 .then(res => {
                     console.log('消息接口发送成功');
+                    if(res.data.errcode == 0){
+                        console.log('消息发送成功');
+                    }else if(res.data.errcode == 40001){
+                        console.log('access_token过期');
+                    }else{
+                        console.log('其他错误信息')
+                    }
                     console.log(res.data);
                 })
                 .catch(err => {
@@ -156,9 +155,6 @@ exports.handle_customer_sevice = (req, res) => {
 
 
 
-
-
-
 /**
  *  前台通过登录 code 来换取 openid
  *  @params  code
@@ -169,7 +165,7 @@ exports.handle_customer_sevice = (req, res) => {
  *    服务器内部错误 {mes: '服务器繁忙请稍后再试',status: 500}
  */
 
-exports.code = (req, res) => {
+exports.getOpenidByCode = (req, res) => {
   console.log(req.body);
   if(req.body.code){
     // 这里去发送code去微信服务器去验证 返回来 session_key + openid

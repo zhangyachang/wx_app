@@ -1,5 +1,13 @@
 const express = require('express'),
     router = express.Router();
+
+/****************************/
+const {encrypt} = require('../utils/encrypt');
+
+
+
+/****************************/
+
 const wx_msg = require('../module/wx_msg');
 
 
@@ -29,12 +37,24 @@ router.get('/checkPushMsg', wx_msg.check_push);
 router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
 
 /**
+ *  XXXXXXXXXXXXXXXXX
+ *  这个接口不应该改为 get 请求吗？？ 当时是怎么想的，等闲下来的时候修改一下
+ *  XXXXXXXXXXXXXXXXXXX
  *
  *  根据前端的coke去后台去请求 openid 和 session_key
  *  @params  code
- *
  */
-router.post('/code', wx_msg.code);
+router.post('/code', wx_msg.getOpenidByCode);
+
+
+/****************************/
+router.get('/testAPI', (req, res) => {
+    console.log('请求到了testAPI接口');
+    encrypt();
+    res.send('1111');
+    
+});
+/****************************/
 
 
 // 在后端服务器中调用，获取这些模板的id

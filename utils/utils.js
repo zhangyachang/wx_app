@@ -1,5 +1,5 @@
-
 const crypto = require('crypto');
+
 /*
     @explain sh1加密
     @version 1.0.1
@@ -13,7 +13,6 @@ const crypto = require('crypto');
     @params : a,b,c……
     @return : String 加密完成后的字符串
  */
-
 exports.sha1 = function (...arr) {
     return crypto.createHash('sha1').update(arr.sort().join('')).digest('hex');
 };
@@ -54,12 +53,9 @@ exports.decrypt = function (obj, type) {
 };
 
 
-/*
-    @explain 微信消息的加密方法
-    @version 1.0.0
-    @data 2019-2-13
-    @params
-    
-    @return
-*/
+
+
+
+
+
 
