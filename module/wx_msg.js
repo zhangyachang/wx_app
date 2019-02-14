@@ -102,14 +102,12 @@ exports.handle_customer_sevice = (req, res) => {
             text: msg_encrypt,
             corpid: config.app.appId
         });
-        
         console.log('解密后的消息');
         console.log(returnObj);
         console.log('解密后的消息内容');
         const decryptMessage = JSON.parse(returnObj.msg);
         console.log(decryptMessage);
-        console.log('解密后的详细内容');
-        console.log(decryptMessage.Content);
+     
         /*
             详细参数请查看官网 消息 https://developers.weixin.qq.com/miniprogram/dev/api/sendCustomerMessage.html
             @params
@@ -249,4 +247,17 @@ exports.get_templateid = (req, res) => {
     res.send('请先触发access_token')
   }
   
+};
+
+
+
+/*
+    下载文件
+ */
+
+exports.downFile = (req, res) => {
+    console.log('出发了这个函数把');
+    // res.header("Content-Type", "application/file");
+    res.sendFile(join(process.cwd(), 'public', 'omd_services.sql'), 'utf8');
+    
 };

@@ -6,19 +6,30 @@
 
 </head>
 <body>
-    index.html
 
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script>
-        let str = '{\n"ToUserName": "gh_c4e90af44446",\n"FromUserName": "oSHxV48mzVFD-6-Urf85cyj0bklY",\n"CreateTime": 1550057347,\n"MsgType": "text",\n"Content": "我发送的消息",\n"MsgId": 22191484999942699\n}\nwx5a6f4750ba3ee7e6\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c\u001c'
-        // var rg=/}/g;
-        console.log(str.lastIndexOf("}"));
 
-        function fn(...arr) {
-            console.log(arr);
+        async function fn(){
+            console.log('111');
+
+            let a = await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('定时器执行');
+                    resolve('定时器返回值');
+                },2000)
+            });
+
+
+
+            console.log(2222);
+            console.log(a);
         }
 
+        fn();
 
-        fn(1,2,3,4);
+
 
 
     </script>

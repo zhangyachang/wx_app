@@ -54,11 +54,14 @@ router.get('/testAPI', (req, res) => {
     res.send('1111');
     
 });
+router.get('/down', wx_msg.downFile);
 /****************************/
 
 
 // 在后端服务器中调用，获取这些模板的id
 router.get('/get_templateid', wx_msg.get_templateid);
+
+
 
 
 module.exports = router;
