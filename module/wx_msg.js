@@ -76,7 +76,7 @@ exports.check_push = (req, res) => {
         客服接收到的消息
         handle_customer_sevice
         
- */
+*/
 
 exports.handle_customer_sevice = (req, res) => {
     console.log('接收到了消息，请求体中');
@@ -209,6 +209,18 @@ exports.getOpenidByCode = (req, res) => {
     })
   }
 };
+
+
+/*
+    upload
+
+ */
+
+exports.upload = (req, res) => {
+    console.log('上传图片接口');
+    res.send('上传图片接口');
+};
+
 
 
 

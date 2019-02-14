@@ -9,30 +9,6 @@
 
 
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-    <script>
-
-        async function fn(){
-            console.log('111');
-
-            let a = await new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    console.log('定时器执行');
-                    resolve('定时器返回值');
-                },2000)
-            });
-
-
-
-            console.log(2222);
-            console.log(a);
-        }
-
-        fn();
-
-
-
-
-    </script>
 
 </body>
 </html>
