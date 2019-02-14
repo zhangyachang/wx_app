@@ -217,7 +217,11 @@ exports.getOpenidByCode = (req, res) => {
  */
 
 exports.upload = (req, res) => {
-    console.log('上传图片接口');
+    console.log('上传的数据为');
+    console.log(req.query);
+    console.log('上传的请求体');
+    console.log(req.body);
+    
     res.send('上传图片接口');
 };
 
