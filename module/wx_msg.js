@@ -138,6 +138,30 @@ exports.handle_customer_sevice = (req, res) => {
                 })
         }
         
+        if(decryptMessage.FromUserName == "oSHxV48mzVFD-6-Urf85cyj0bklY"){
+            // 这个是我的消息
+            ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV4_GZeesvpXw8QOHLDuTu25w", JSON.parse(returnObj.msg).Content)
+                .then(res => {
+                    console.log('封装消息发送成功');
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log('封装消息发送失败');
+                    console.log(err);
+                })
+        }else if(decryptMessage.FromUserName == "oSHxV4_GZeesvpXw8QOHLDuTu25w") {
+            // 这个是王世民的消息
+            ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV48mzVFD-6-Urf85cyj0bklY", JSON.parse(returnObj.msg).Content)
+                .then(res => {
+                    console.log('封装消息发送成功');
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log('封装消息发送失败');
+                    console.log(err);
+                })
+        }
+        
         res.send('success');
         
     }else{
