@@ -4,7 +4,7 @@ const multer = require('multer'),
 // 上传路径处理  上传之后重命名
 let storage = multer.diskStorage({
     //上传路径处理
-    destination : path.join(process.cwd(),'public/down'),
+    destination : path.join(process.cwd(),'public','down'),
     filename:function (req,file,callback) {
         //console.log(file);
         let filename = (file.originalname).split('.');

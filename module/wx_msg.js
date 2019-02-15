@@ -4,11 +4,15 @@ const axios = require('axios'),
     {result} = require('./result'),
     fs = require('fs'),
     crypto = require('crypto'),
+    // upload = require('../utils/multer'),
+    multer = require('multer'),
     {join} = require('path'),
     {sha1, decrypt} = require('../utils/utils'),
     utils = require('../utils/utils'),
     ZY = require('../module/init'),
     config = require('../config/wx_config');
+
+let upload = multer({dest: join(process.cwd(), 'public', 'down')});
 
 
 /**
@@ -242,14 +246,15 @@ exports.getOpenidByCode = (req, res) => {
         obj.filePath 图片在服务器中的路径
         obj.msg     提示信息
  */
-exports.uploadFile = (req, res) => {
-    console.log('触发了上传图片的函数');
-    console.log('上传的url路径中');
+
+exports.uploadFile = upload.single('file', function (req, res, next) {
     console.log(req.query);
-    console.log('上传的请求体中的内容');
     console.log(req.body);
-    res.send(result(200, '上传成功'))
-};
+    
+    
+    console.log('打印结束');
+    res.send('success UploadFile');
+});
 
 
 /*

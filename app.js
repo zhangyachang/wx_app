@@ -26,8 +26,8 @@ app.use('/', express.static(join(__dirname, 'public')));
 
 app.use('/', require('./router/index'));
 
-// 初始化 项目的配置等
 
+// 初始化 项目的配置等
 init.init();
 
 http.createServer(app).listen(port, () => {
