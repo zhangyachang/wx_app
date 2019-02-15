@@ -258,6 +258,7 @@ exports.uploadFile = (req, res) => {
 /*
     upload
         服务器推送图片消息给用户
+    @params imgPath 要发送的图片的路径
  */
 
 exports.uploadImage = (req, res) => {
@@ -267,8 +268,8 @@ exports.uploadImage = (req, res) => {
     console.log(req.body);
     
     // 图片的路径还需要修改一下
-    let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
-        imgStream = fs.createReadStream(imgPath);
+    //let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
+    let imgStream = fs.createReadStream(req.query.imgPath);
     
     request.post({
         url: `${config.url.ip}${config.url.P_uploadFile}?access_token=${config.access_token}&type=image`,
@@ -290,7 +291,7 @@ exports.uploadImage = (req, res) => {
         
         // 给我发送图片消息
         console.log('发送图片消息');
-        ZY.msg.imgMsg("oSHxV48mzVFD-6-Urf85cyj0bklY", "oSHxV48mzVFD-6-Urf85cyj0bklY", "nr3zSGty7ScxVAnAf43ec3N_XwdSjX1UK_zBEjzJMaLYbPrKA1C0Kq5pRM_EhtUH");
+        ZY.msg.imgMsg("oSHxV48mzVFD-6-Urf85cyj0bklY", "oSHxV48mzVFD-6-Urf85cyj0bklY", JSON.parse(body).media_id);
         console.log('发送图片消息成功');
         
     });

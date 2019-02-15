@@ -32,16 +32,12 @@ router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
 router.post('/uploadFile', upload.single('file'), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
-    console.log('接口调用成功');
-    
-    console.log(req.query);
-    console.log(req.body);
     console.log('打印文件信息');
     console.log(req.file);
-    
-    console.log('打印结束');
-    res.send('success UploadFile');
-    
+    res.send({
+        status: 200,
+        file: req.file
+    });
 });
 
 
