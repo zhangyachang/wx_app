@@ -79,7 +79,7 @@ module.exports = {
             @author     Z
             @params
                 obj.fromUser  谁发送的
-                obj.toUser    发送给谁的
+                obj.toUser    本条消息要发送给谁的
                 obj.con       消息内容
             
             @return
@@ -87,7 +87,6 @@ module.exports = {
          */
         textMsg(fromUser, toUser, con) {
             console.log('init 中消息推送');
-            
             return new Promise((resolve, reject) => {
                 try{
                     axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token,{
@@ -101,9 +100,7 @@ module.exports = {
                             console.log(res.data);
                             let text = {};
                             if(res.data.errcode == 0){
-                                console.log('消息发送成功');
                                 text = result(200, '消息接口发送成功');
-                                
                             }else if(res.data.errcode == 40001){
                                 text = result(400, "access_token过期");
                             }else{
