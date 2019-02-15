@@ -82,6 +82,9 @@ module.exports = {
                 obj.toUser    本条消息要发送给谁的
                 obj.con       消息内容
             
+            // 我的openid  oSHxV48mzVFD-6-Urf85cyj0bklY
+            // 王世民的openid
+            
             @return
             
          */

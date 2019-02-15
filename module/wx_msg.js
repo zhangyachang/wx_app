@@ -126,7 +126,18 @@ exports.handle_customer_sevice = (req, res) => {
                     console.log('封装消息发送失败');
                     console.log(err);
                 })
+        }else if(JSON.parse(returnObj.msg).Content == '王世民'){
+            ZY.msg.textMsg(decryptMessage.FromUserName, decryptMessage.FromUserName, '王世民新年好啊！！')
+                .then(res => {
+                    console.log('封装消息发送成功');
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log('封装消息发送失败');
+                    console.log(err);
+                })
         }
+        
         res.send('success');
         
     }else{
