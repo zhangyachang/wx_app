@@ -1,4 +1,5 @@
 const axios = require('axios'),
+    request = require('request'),
     {app, pushToken} = require('../config/wx_config'),
     fs = require('fs'),
     crypto = require('crypto'),
@@ -243,27 +244,35 @@ exports.uploadImage = (req, res) => {
     console.log('上传的请求体');
     console.log(req.body);
     
+    // 图片的路径还需要修改一下
     let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
         imgStream = fs.createReadStream(imgPath);
     console.log(imgPath);
     
-    // fs.readFile(imgPath, function (err, data) {
-    //     console.log(err);
-    //     console.log(data);
-    // });
-    
-    axios.post(`https://api.weixin.qq.com/cgi-bin/media/upload?access_token=${config.access_token}&type=image`, {
-            media: imgStream
-        })
-        .then(res => {
-            console.log('上传成功');
-            console.log(res.data);
-        })
-        .catch(err => {
-            console.log('上传失败');
-            console.log(err);
-        });
-    
+    request.post({
+        url: `${config.url.ip}${config.url.P_uploadFile}?access_token=${config.access_token}&type=image`,
+        formData: {
+            buffer: {
+                value: imgStream,
+                options: {
+                    filename: '1.png',
+                    contentType: 'image/png'
+                }
+            }
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            return console.error('upload failed:', err);
+        }
+        console.log('Upload successful!  Server responded with:', body);
+        console.log(JSON.parse(body));
+        
+        // 给我发送图片消息
+        console.log('发送图片消息');
+        ZY.msg.imgMsg("oSHxV48mzVFD-6-Urf85cyj0bklY", "oSHxV48mzVFD-6-Urf85cyj0bklY", "nr3zSGty7ScxVAnAf43ec3N_XwdSjX1UK_zBEjzJMaLYbPrKA1C0Kq5pRM_EhtUH");
+        console.log('发送图片消息成功');
+        
+    });
     res.send('上传图片接口');
 };
 

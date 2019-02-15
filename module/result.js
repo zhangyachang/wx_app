@@ -16,7 +16,7 @@ exports.result = function (code,text,type) {
         }
         return text;
     }else{
-        return {result:code,msg:text}
+        return {result:code,msg:text};
     }
     
 };

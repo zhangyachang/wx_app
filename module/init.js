@@ -86,6 +86,9 @@ module.exports = {
             // 王世民的openid   oSHxV4_GZeesvpXw8QOHLDuTu25w
             
             @return
+                obj.code
+                obj.msg
+                程序报错就返回程序自带的错误 / axios自带请求错误
             
          */
         textMsg(fromUser, toUser, con) {
@@ -119,6 +122,41 @@ module.exports = {
                 }
             })
         },
+        /*
+            @explain 发送图片消息
+         */
+        imgMsg: function (fromUser, toUser, media_id) {
+            return new Promise((resolve, reject) => {
+                try {
+                    axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token,{
+                            touser: toUser,
+                            msgtype: "image",
+                            image: {
+                                "media_id": media_id
+                            }
+                        })
+                        .then(res => {
+                            console.log(res.data);
+                            let text = {};
+                            if(res.data.errcode == 0){
+                                text = result(200, '消息接口发送成功');
+                            }else if(res.data.errcode == 40001){
+                                text = result(400, "access_token过期");
+                            }else{
+                                text = result(401, res.data, 'notcode');
+                            }
+                            resolve(text);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
+                }catch (e) {
+                    reject(e);
+                }
+                
+            
+            });
+        }
     }
     
 };
