@@ -1,6 +1,7 @@
 const axios = require('axios'),
     request = require('request'),
     {app, pushToken} = require('../config/wx_config'),
+    {result} = require('./result'),
     fs = require('fs'),
     crypto = require('crypto'),
     {join} = require('path'),
