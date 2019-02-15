@@ -28,7 +28,7 @@ router.get('/checkPushMsg', wx_msg.check_push);
 router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
 
 // 上传文件
-router.post('/uploadFile', upload.single('avatar'), function (req, res, next) {
+router.post('/uploadFile', upload.single('file'), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
     console.log('接口调用成功');
