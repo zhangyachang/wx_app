@@ -1,9 +1,10 @@
 const express = require('express'),
-    /***/
-    {join} = require('path'),
-    multer = require('multer'),
-    upload = multer({dest: join(process.cwd(), 'public', 'down')});
-    /**/
+    // /***/
+    // {join} = require('path'),
+    // multer = require('multer'),
+    // upload = multer({dest: join(process.cwd(), 'public', 'down')});
+    // /**/
+    upload = require('../utils/multer'),
     router = express.Router();
 
 
@@ -37,7 +38,6 @@ router.post('/uploadFile', upload.single('file'), function (req, res, next) {
     console.log(req.body);
     console.log('打印文件信息');
     console.log(req.file);
-    
     
     console.log('打印结束');
     res.send('success UploadFile');

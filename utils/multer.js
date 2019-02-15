@@ -14,7 +14,9 @@ let storage = multer.diskStorage({
 let fileFilter = function (req,file,cb) {
     //当设置这个判断后 没允许的 && 没设置的类型  拒绝
     //console.log(file);
-    if(file.mimetype === 'image/jpeg'){
+    
+    // 新增了两种类型
+    if(file.mimetype === 'image/jpeg' || file.mimetype==='image/png' || file.mimetype === 'image/jpg'){
         console.log('进去了吗');
         cb(null,true);
     }else{
