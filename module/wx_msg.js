@@ -248,6 +248,8 @@ exports.getOpenidByCode = (req, res) => {
  */
 
 exports.uploadFile = upload.single('file', function (req, res, next) {
+    console.log('接口调用成功');
+    
     console.log(req.query);
     console.log(req.body);
     
