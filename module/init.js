@@ -1,6 +1,6 @@
 /* 初始化微信的access_token */
 const config = require('../config/wx_config'),
-    result = require('./result'),
+    {result} = require('./result'),
     axios = require('axios');
 
 /*

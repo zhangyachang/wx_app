@@ -1,4 +1,4 @@
-exports.code = function (code,text,type) {
+exports.result = function (code,text,type) {
     switch (code) {
         case 200:
             !text?text="成功":false;
