@@ -251,7 +251,6 @@ exports.uploadFile = upload.single('file', function (req, res, next) {
     console.log(req.query);
     console.log(req.body);
     
-    
     console.log('打印结束');
     res.send('success UploadFile');
 });
