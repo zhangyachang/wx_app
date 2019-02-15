@@ -252,15 +252,7 @@ exports.uploadFile = (req, res) => {
     
 };
 
-//     upload.single('file', function (req, res, next) {
-//     console.log('接口调用成功');
-//
-//     console.log(req.query);
-//     console.log(req.body);
-//
-//     console.log('打印结束');
-//     res.send('success UploadFile');
-// });
+
 
 
 /*
