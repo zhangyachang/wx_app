@@ -120,12 +120,13 @@ exports.handle_customer_sevice = (req, res) => {
             ZY.msg.textMsg(decryptMessage.FromUserName, decryptMessage.FromUserName, '新年好!!')
                 .then(res => {
                     console.log('封装消息发送成功');
-                    res.send('success');
                 })
                 .catch(err => {
                     console.log('封装消息发送失败');
+                    console.log(err);
                 })
         }
+        res.send('success');
         
     }else{
         console.log('error');

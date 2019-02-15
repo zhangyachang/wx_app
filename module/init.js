@@ -86,8 +86,7 @@ module.exports = {
             
          */
         textMsg(fromUser, toUser, con) {
-            console.log('消息推送');
-            console.log(config.url.P_CustomSend);
+            console.log('init 中消息推送');
             
             return new Promise((resolve, reject) => {
                 try{
