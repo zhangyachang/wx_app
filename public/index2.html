@@ -9,6 +9,31 @@
 
 
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script>
 
+        async function fn(){
+            let a = await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(true){
+                        resolve('1111');
+                    }else {
+                        resolve('22222');
+                    }
+                },2000)
+            });
+            console.log('打印');
+            console.log(a);
+
+        }
+        fn();
+
+
+
+
+
+
+
+
+    </script>
 </body>
 </html>

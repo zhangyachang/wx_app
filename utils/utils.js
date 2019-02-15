@@ -51,6 +51,23 @@ exports.decrypt = function (obj) {
     }
 };
 
+/*
+    @explain    上传文件
+    @version    1.0.0
+    @author     Z
+    @data       2019-2-15
+    @params     urlPath 文件路径
+    @params     type 文件类型
+ */
+
+exports.uploadFile = function (urlPath, type) {
+    return new Promise((resolve, reject) => {
+    
+    })
+};
+
+
+
 
 
 

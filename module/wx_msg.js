@@ -1,10 +1,11 @@
 const axios = require('axios'),
-  {app, pushToken} = require('../config/wx_config'),
-  fs = require('fs'),
-  crypto = require('crypto'),
-  {join} = require('path'),
-  {sha1, decrypt} = require('../utils/utils'),
-  config = require('../config/wx_config');
+    {app, pushToken} = require('../config/wx_config'),
+    fs = require('fs'),
+    crypto = require('crypto'),
+    {join} = require('path'),
+    {sha1, decrypt} = require('../utils/utils'),
+    ZY = require('../module/init'),
+    config = require('../config/wx_config');
 
 
 /**
@@ -115,34 +116,17 @@ exports.handle_customer_sevice = (req, res) => {
                 touser   用户的openid
                 msgtype   消息类型
          */
-        
         if(JSON.parse(returnObj.msg).Content == '值班'){
-            axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token, {
-                    touser: decryptMessage.FromUserName,
-                    msgtype: "text",
-                    text: {
-                        content: "发送消息"
-                    }
-                })
+            ZY.msg.textMsg(decryptMessage.FromUserName, decryptMessage.FromUserName, '新年好!!')
                 .then(res => {
-                    console.log('消息接口发送成功');
-                    
-                    console.log(res.data);
-                    if(res.data.errcode == 0){
-                        console.log('消息发送成功');
-                    }else if(res.data.errcode == 40001){
-                        console.log('access_token过期');
-                    }else{
-                        console.log('其他错误信息')
-                    }
-                    console.log(res.data);
+                    console.log('封装消息发送成功');
+                    res.send('success');
                 })
                 .catch(err => {
-                    console.log('错误消息');
-                    console.log(err);
+                    console.log('封装消息发送失败');
                 })
         }
-        res.send('success');
+        
     }else{
         console.log('error');
         res.send('error');
@@ -216,11 +200,32 @@ exports.getOpenidByCode = (req, res) => {
 
  */
 
-exports.upload = (req, res) => {
+exports.uploadImage = (req, res) => {
     console.log('上传的数据为');
     console.log(req.query);
     console.log('上传的请求体');
     console.log(req.body);
+    
+    let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
+        imgStream = fs.createReadStream(imgPath);
+    console.log(imgPath);
+    
+    // fs.readFile(imgPath, function (err, data) {
+    //     console.log(err);
+    //     console.log(data);
+    // });
+    
+    axios.post(`https://api.weixin.qq.com/cgi-bin/media/upload?access_token=${config.access_token}&type=image`, {
+            media: imgStream
+        })
+        .then(res => {
+            console.log('上传成功');
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log('上传失败');
+            console.log(err);
+        });
     
     res.send('上传图片接口');
 };

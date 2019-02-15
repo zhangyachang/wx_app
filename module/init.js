@@ -1,12 +1,41 @@
 /* 初始化微信的access_token */
 const config = require('../config/wx_config'),
+    result = require('./result'),
     axios = require('axios');
+
+/*
+    @explain init NodeJs标准方法库
+    @author Z
+    @data 2019-1-16
+    @version 1.0.0
+ */
 
 module.exports = {
     // 程序初始化
     init() {
         this.getAccessToken();
         this.auto_refreshAccessToken();
+    },
+    
+    route: {
+        /*
+            @explain 解决post与get请求获取不统一的问题
+            @author Z
+            @data   2019-2-15
+            @params
+                req:route(路由)方法的req参数
+                res:route(路由)方法的res参数
+            @return
+                obj.client : 返回给客户端的json对象，所有返回客户端的结构必须基于此对象
+                obj.params : 用户提交的参数对象集合
+        */
+        init: function (req, res) {
+            let obj = {
+                client: {}
+            };
+            obj.params = req.method=="POST"?req.body:req.query;
+            return obj;
+        }
     },
     
     // 自动刷新 去获取token
@@ -42,8 +71,55 @@ module.exports = {
         @return
         
      */
-    pushMessage(msgtype, con){
-    
-    },
+    msg: {
+        /*
+            @explain    发送文本消息
+            @data       2019-2-15
+            @version    1.0.0
+            @author     Z
+            @params
+                obj.fromUser  谁发送的
+                obj.toUser    发送给谁的
+                obj.con       消息内容
+            
+            @return
+            
+         */
+        textMsg(fromUser, toUser, con) {
+            console.log('消息推送');
+            console.log(config.url.P_CustomSend);
+            
+            return new Promise((resolve, reject) => {
+                try{
+                    axios.post(config.url.ip + config.url.P_CustomSend + '?access_token='+config.access_token,{
+                            touser: toUser,
+                            msgtype: "text",
+                            text: {
+                                content: con
+                            }
+                        })
+                        .then(res => {
+                            console.log(res.data);
+                            let text = {};
+                            if(res.data.errcode == 0){
+                                console.log('消息发送成功');
+                                text = result(200, '消息接口发送成功');
+                                
+                            }else if(res.data.errcode == 40001){
+                                text = result(400, "access_token过期");
+                            }else{
+                                text = result(401, res.data, 'notcode');
+                            }
+                            resolve(text);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
+                }catch (e) {
+                    reject(e);
+                }
+            })
+        },
+    }
     
 };
