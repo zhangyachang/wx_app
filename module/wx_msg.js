@@ -247,15 +247,20 @@ exports.getOpenidByCode = (req, res) => {
         obj.msg     提示信息
  */
 
-exports.uploadFile = upload.single('file', function (req, res, next) {
-    console.log('接口调用成功');
+exports.uploadFile = (req, res) => {
+    res.send('1111');
     
-    console.log(req.query);
-    console.log(req.body);
-    
-    console.log('打印结束');
-    res.send('success UploadFile');
-});
+};
+
+//     upload.single('file', function (req, res, next) {
+//     console.log('接口调用成功');
+//
+//     console.log(req.query);
+//     console.log(req.body);
+//
+//     console.log('打印结束');
+//     res.send('success UploadFile');
+// });
 
 
 /*
