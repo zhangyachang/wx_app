@@ -21,9 +21,11 @@ router.get('/checkPushMsg', wx_msg.check_push);
 // 接收用户发送给小程序客服的消息
 router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
 
+// 上传文件
+router.post('/uploadFile', wx_msg.uploadFile);
+
 // 上传图片地址 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息。
 router.post('/upload', wx_msg.uploadImage);
-
 
 
 
@@ -44,6 +46,7 @@ router.get('/testAPI', (req, res) => {
     res.send('1111');
     
 });
+router.get('/deleteFile', wx_msg.deleteFile);
 router.get('/down', wx_msg.downFile);
 /****************************/
 

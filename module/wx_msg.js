@@ -5,6 +5,7 @@ const axios = require('axios'),
     crypto = require('crypto'),
     {join} = require('path'),
     {sha1, decrypt} = require('../utils/utils'),
+    utils = require('../utils/utils'),
     ZY = require('../module/init'),
     config = require('../config/wx_config');
 
@@ -232,10 +233,27 @@ exports.getOpenidByCode = (req, res) => {
   }
 };
 
+/*
+    上传文件保存到服务器
+    
+    @return
+        obj.status  状态码
+        obj.filePath 图片在服务器中的路径
+        obj.msg     提示信息
+ */
+exports.uploadFile = (req, res) => {
+    console.log('触发了上传图片的函数');
+    console.log('上传的url路径中');
+    console.log(req.query);
+    console.log('上传的请求体中的内容');
+    console.log(req.body);
+    res.send(result(200, '上传成功'))
+};
+
 
 /*
     upload
-
+        服务器推送图片消息给用户
  */
 
 exports.uploadImage = (req, res) => {
@@ -247,7 +265,6 @@ exports.uploadImage = (req, res) => {
     // 图片的路径还需要修改一下
     let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
         imgStream = fs.createReadStream(imgPath);
-    console.log(imgPath);
     
     request.post({
         url: `${config.url.ip}${config.url.P_uploadFile}?access_token=${config.access_token}&type=image`,
@@ -313,10 +330,7 @@ exports.get_templateid = (req, res) => {
   }else{
     res.send('请先触发access_token')
   }
-  
 };
-
-
 
 /*
     下载文件
@@ -327,4 +341,22 @@ exports.downFile = (req, res) => {
     // res.header("Content-Type", "application/file");
     res.sendFile(join(process.cwd(), 'public', 'omd_services.sql'), 'utf8');
     
+};
+
+/*
+    删除文件 测试接口
+    
+*/
+exports.deleteFile = (req, res) => {
+    console.log('出发了删除文件的函数');
+    let delFilePath = join(process.cwd(), 'public', 'img', 'wx_img');
+    console.log(delFilePath);
+    utils.deleteFile(join(delFilePath, 'tab_my2.png'))
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    res.send("Hello world");
 };

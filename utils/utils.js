@@ -1,4 +1,6 @@
-const crypto = require('crypto');
+const crypto = require('crypto'),
+    fs = require('fs'),
+    {result} = require('../module/result');
 
 /*
     @explain sh1加密
@@ -66,6 +68,36 @@ exports.uploadFile = function (urlPath, type) {
     })
 };
 
+
+/*
+    @explain 删除文件
+    @version 1.0.0
+    @author Z
+    @data   2019-2-15
+    @params String 要删除的文件路径
+    
+    @return
+        {
+            status:;
+            msg: ""
+        }
+ */
+exports.deleteFile = function (localPath) {
+    return new Promise((resolve, reject) => {
+        try {
+            fs.unlink(localPath, (err, data) => {
+                if(err){
+                    reject(result(400,{msg:'删除失败', err: err}, 'notcode'))
+                }else{
+                    resolve(result(200, '删除文件成功'));
+                }
+            })
+        }catch (e) {
+            console.log('执行到catch了吧');
+            reject(e);
+        }
+    });
+};
 
 
 
