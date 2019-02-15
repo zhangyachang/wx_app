@@ -45,7 +45,7 @@ router.post('/uploadFile', upload.single('file'), function (req, res, next) {
 
 
 // 上传图片地址 把媒体文件上传到微信服务器。目前仅支持图片。用于发送客服消息或被动回复用户消息。
-router.post('/upload', wx_msg.uploadImage);
+router.get('/upload', wx_msg.uploadImage);
 
 
 
