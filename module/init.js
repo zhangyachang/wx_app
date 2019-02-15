@@ -83,7 +83,7 @@ module.exports = {
                 obj.con       消息内容
             
             // 我的openid  oSHxV48mzVFD-6-Urf85cyj0bklY
-            // 王世民的openid
+            // 王世民的openid   oSHxV4_GZeesvpXw8QOHLDuTu25w
             
             @return
             

@@ -127,7 +127,7 @@ exports.handle_customer_sevice = (req, res) => {
                     console.log(err);
                 })
         }else if(JSON.parse(returnObj.msg).Content == '王世民'){
-            ZY.msg.textMsg(decryptMessage.FromUserName, decryptMessage.FromUserName, '王世民新年好啊！！')
+            ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV4_GZeesvpXw8QOHLDuTu25w", '王世民新年好啊！！')
                 .then(res => {
                     console.log('封装消息发送成功');
                     console.log(res);
