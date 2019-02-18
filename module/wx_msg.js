@@ -1,14 +1,24 @@
-
 const axios = require('axios'),
-  {appInfo, pushToken} = require('../config/wx_config'),
-  fs = require('fs'),
-  {join} = require('path'),
-  config = require('../config/wx_config');
+    request = require('request'),
+    {app, pushToken} = require('../config/wx_config'),
+    {result} = require('./result'),
+    fs = require('fs'),
+    crypto = require('crypto'),
+    // upload = require('../utils/multer'),
+    multer = require('multer'),
+    {join} = require('path'),
+    {sha1, decrypt} = require('../utils/utils'),
+    utils = require('../utils/utils'),
+    ZY = require('../module/init'),
+    config = require('../config/wx_config');
 
+let upload = multer({dest: join(process.cwd(), 'public', 'down')});
 
 
 /**
- *  获取 token
+ *   版本 0.0.1
+ *
+ *
  *   返回值 示例
  *    成功
  *   {
@@ -20,66 +30,173 @@ const axios = require('axios'),
  *   失败
  *   {
  *     status: 75400,
- *     msg: '请求错误'
+ *     errmsg: '请求错误'
  *   }
- *
  */
 
-
-
-exports.token = (req, res) => {
-  let access_token = config.access_token;
-  if(access_token){
-    res.send({
-      access_token: access_token,
-      status: 75200
-    });
-  }else{
-    axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appInfo.appId}&secret=${appInfo.secret}`)
-        .then(msg => {
-          console.log('获取到的access_token的消息的格式为');
-          console.log(msg.data);
-          console.log(JSON.stringify(msg.data))
-          
-          config.access_token = msg.data.access_token;
-          res.send({
+exports.accessToken = (req, res) => {
+    if(config.access_token){
+        res.send({
             access_token: config.access_token,
             status: 75200
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.send({
-            status: 75400,
-            msg: '请求错误'
-          })
         });
-  }
+    }else{
+    res.send({
+            errmsg: '请求错误',
+            status: 75400
+        });
+    }
 };
 
-// 验证服务器推送url地址
+
+/*
+    验证服务器推送url地址
+        开发者提交信息后，微信服务器将发送GET请求到填写的服务器URL上，GET请求携带参数如下
+        @params signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数，nonce参数
+        @params timestamp	时间戳
+        @params nonce	随机数
+        @params echostr	随机字符串
+*/
+
 exports.check_push = (req, res) => {
-  
   console.log(req.query);
   let signature = req.query.signature,
       timestamp = req.query.timestamp,
-      nonce = req.query.nonce;
+      nonce = req.query.nonce,
+      echostr = req.query.echostr;
   
+  let a = sha1(pushToken, timestamp, nonce);
+
+  if(a == signature){
+    // 如果验证成功则原封不动的返回
+    res.send(echostr);
+  }else{
+    res.send({
+      status: 400,
+      data: "check msg error"
+    })
+  }
+};
+
+
+/*
+    消息体验证和解密
+        客服接收到的消息
+        handle_customer_sevice
+        
+*/
+
+exports.handle_customer_sevice = (req, res) => {
+    console.log('接收到了消息，请求体中');
+    console.log(req.body);
+    console.log('接收到了消息，请求url中');
+    console.log(req.query);
+    let signature = req.query.signature,
+        timestamp = req.query.timestamp,
+        nonce = req.query.nonce,
+        openid = req.query.openid,
+        encrypt_type = req.query.encrypt_type,
+        msg_signature = req.query.msg_signature,
+        msg_encrypt = req.body.Encrypt; // 密文体
+    
+    // 开发者计算签名
+    let devMsgSignature = sha1(pushToken, timestamp, nonce, msg_encrypt);
+    
+    if(devMsgSignature == msg_signature){
+        console.log('验证成功,是从微信服务器转发过来的消息');
+        
+        let returnObj = decrypt({
+            AESKey: config.server.EncodingAESKey,
+            text: msg_encrypt,
+            corpid: config.app.appId
+        });
+        console.log('解密后的消息');
+        console.log(returnObj);
+        console.log('解密后的消息内容');
+        const decryptMessage = JSON.parse(returnObj.msg);
+        console.log(decryptMessage);
+     
+        /*
+            详细参数请查看官网 消息 https://developers.weixin.qq.com/miniprogram/dev/api/sendCustomerMessage.html
+            @params
+                access_token  调用接口凭证
+                touser   用户的openid
+                msgtype   消息类型
+         */
+        if(JSON.parse(returnObj.msg).Content == '值班'){
+            ZY.msg.textMsg(decryptMessage.FromUserName, decryptMessage.FromUserName, '新年好!!')
+                .then(res => {
+                    console.log('封装消息发送成功');
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log('封装消息发送失败');
+                    console.log(err);
+                })
+        }else if(JSON.parse(returnObj.msg).Content == '王世民'){
+            ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV4_GZeesvpXw8QOHLDuTu25w", '王世民新年好啊！！')
+                .then(res => {
+                    console.log('封装消息发送成功');
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log('封装消息发送失败');
+                    console.log(err);
+                })
+        }
+        
+        // if(decryptMessage.FromUserName == "oSHxV48mzVFD-6-Urf85cyj0bklY"){
+        //     // 这个是我的消息
+        //     ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV4_GZeesvpXw8QOHLDuTu25w", JSON.parse(returnObj.msg).Content)
+        //         .then(res => {
+        //             console.log('封装消息发送成功');
+        //             console.log(res);
+        //         })
+        //         .catch(err => {
+        //             console.log('封装消息发送失败');
+        //             console.log(err);
+        //         })
+        // }else if(decryptMessage.FromUserName == "oSHxV4_GZeesvpXw8QOHLDuTu25w") {
+        //     // 这个是王世民的消息
+        //     ZY.msg.textMsg(decryptMessage.FromUserName, "oSHxV48mzVFD-6-Urf85cyj0bklY", JSON.parse(returnObj.msg).Content)
+        //         .then(res => {
+        //             console.log('封装消息发送成功');
+        //             console.log(res);
+        //         })
+        //         .catch(err => {
+        //             console.log('封装消息发送失败');
+        //             console.log(err);
+        //         })
+        // }
+        
+        res.send('success');
+        
+    }else{
+        console.log('error');
+        res.send('error');
+    }
 };
 
 
 
+/**
+ *  前台通过登录 code 来换取 openid
+ *  @params  code
+ *
+ *    返回值 {status: 200, openid: ""}
+ *
+ *    重复发送code {status: 400, msg:'code only use one'}
+ *    服务器内部错误 {mes: '服务器繁忙请稍后再试',status: 500}
+ */
 
-// 前台发送登录 code  这里去发送code去微信服务器去验证 返回来 session_key + openid
-exports.login_code = (req, res) => {
+exports.getOpenidByCode = (req, res) => {
   console.log(req.body);
-  console.log(req.body.code);
   if(req.body.code){
     // 这里去发送code去微信服务器去验证 返回来 session_key + openid
     axios.get('https://api.weixin.qq.com/sns/jscode2session',{
       params: {
-        appid: appInfo.appId,
-        secret: appInfo.secret,
+        appid: app.appId,
+        secret: app.secret,
         js_code: req.body.code,
         grant_type: 'authorization_code'
       }
@@ -90,10 +207,19 @@ exports.login_code = (req, res) => {
           // 这里就可以获得到 openid 和 session_key
           //会话密钥 session_key 是对用户数据进行 加密签名 的密钥。为了应用自身的数据安全，开发者服务器不应该把会话密钥下发到小程序，也不应该对外提供这个密钥。
           // 临时登录凭证 code 只能使用一次
-          res.send({
-            status: 200,
-            openid: msg.data.openid
-          });
+          if(msg.data.errcode){
+            if(msg.data.errcode == 40163){
+              res.send({status: 401,msg: 'code been used'});
+            }else if(msg.data.errcode == 40029){
+              res.send({status: 402, msg: 'code 无效'})
+            }
+          }else{
+            res.send({
+              status: 200,
+              openid: msg.data.openid
+            });
+          }
+          
         })
         .catch(err => {
           console.log('错误信息');
@@ -110,8 +236,68 @@ exports.login_code = (req, res) => {
       status: 400
     })
   }
-  
 };
+
+/*
+    上传文件保存到服务器
+    
+    @return
+        obj.status  状态码
+        obj.filePath 图片在服务器中的路径
+        obj.msg     提示信息
+ */
+
+exports.uploadFile = (req, res) => {
+    res.send('1111');
+    
+};
+
+
+
+
+/*
+    upload
+        服务器推送图片消息给用户
+    @params imgPath 要发送的图片的路径
+ */
+
+exports.uploadImage = (req, res) => {
+    console.log('上传的数据为');
+    console.log(req.query);
+    console.log('上传的请求体');
+    console.log(req.body);
+    
+    // 图片的路径还需要修改一下
+    //let imgPath = join(process.cwd(), 'public', 'img', 'tab_my_select.png'),
+    let imgStream = fs.createReadStream(req.query.imgPath);
+    
+    request.post({
+        url: `${config.url.ip}${config.url.P_uploadFile}?access_token=${config.access_token}&type=image`,
+        formData: {
+            buffer: {
+                value: imgStream,
+                options: {
+                    filename: '1.png',
+                    contentType: 'image/png'
+                }
+            }
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            return console.error('upload failed:', err);
+        }
+        console.log('Upload successful!  Server responded with:', body);
+        console.log(JSON.parse(body));
+        
+        // 给我发送图片消息
+        console.log('发送图片消息');
+        ZY.msg.imgMsg("oSHxV48mzVFD-6-Urf85cyj0bklY", "oSHxV48mzVFD-6-Urf85cyj0bklY", JSON.parse(body).media_id);
+        console.log('发送图片消息成功');
+        
+    });
+    res.send('上传图片接口');
+};
+
 
 
 
@@ -149,29 +335,33 @@ exports.get_templateid = (req, res) => {
   }else{
     res.send('请先触发access_token')
   }
-  
-  
 };
 
-/**
- *  读取文件中的token，如果过期了就重新刷新它
- *   @params 无
- *
+/*
+    下载文件
  */
 
-exports.read_token = (req, res) => {
+exports.downFile = (req, res) => {
+    console.log('出发了这个函数把');
+    // res.header("Content-Type", "application/file");
+    res.sendFile(join(process.cwd(), 'public', 'omd_services.sql'), 'utf8');
+    
+};
 
-
-  console.log('你发送过来了');
-  console.log(join(__dirname, '../', 'config', 'access_token'));
-  fs.readFile(join(__dirname, '../', 'config', 'access_token'), 'utf8', (err, data) => {
-    console.log('读取了文件信息吗');
-    if(err) throw err;
-    console.log(data);
-    console.log(JSON.parse(data));
-    console.log(data.access_token);
-
-
-    res.send('Hi');
-  })
+/*
+    删除文件 测试接口
+    
+*/
+exports.deleteFile = (req, res) => {
+    console.log('出发了删除文件的函数');
+    let delFilePath = join(process.cwd(), 'public', 'img', 'wx_img');
+    console.log(delFilePath);
+    utils.deleteFile(join(delFilePath, 'tab_my2.png'))
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    res.send("Hello world");
 };

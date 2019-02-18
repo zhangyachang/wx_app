@@ -4,6 +4,7 @@ const express = require('express'),
     {join} = require('path'),
     http = require('http'),
     morgan = require('morgan'),
+    init = require('./module/init'),
     {port} = require('./config/wx_config');
 
 app.use(morgan('dev'));
@@ -18,12 +19,16 @@ app.all('*', function(req, res, next) {
   else next()
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use('/', express.static(join(__dirname, 'public')));
 
-
 app.use('/', require('./router/index'));
+
+
+// 初始化 项目的配置等
+init.init();
 
 http.createServer(app).listen(port, () => {
   console.log(port+'端口服务启动成功');
