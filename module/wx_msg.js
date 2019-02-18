@@ -12,7 +12,7 @@ const axios = require('axios'),
  *   返回值 示例
  *    成功
  *   {
- *     access_token: '18_vrDeYZhDhbqsGDCDvHNw-jkrsvFF4dQKA1RYQ2dkSCDFZ
+ *     access_token: 18_vrDeYZhDhbqsGDCDvHNw'-jkrsvFF4dQKA1RYQ2dkSCDFZ
  *        QYelkXaJTQ3IWYs4fJV8Xlt9crMOCiBlOcLppISvxQq5SEJAyPeCQchZOf4eSsB7XS4eesCgtpJWsKGRL_n0HNLneSjT8ZOiWmvYMIgADAJXT',
  *     status: 75200
  *   }
