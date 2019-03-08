@@ -42,8 +42,8 @@ module.exports = {
     auto_refreshAccessToken(){
         // 每隔7000s去刷新一次 access_token
         setInterval(() => {
-        console.log('access_token刷新函数执行了');
-        this.getAccessToken();
+            console.log('access_token刷新函数执行了');
+            this.getAccessToken();
         }, 7000000);
     },
     
@@ -154,7 +154,7 @@ module.exports = {
                     reject(e);
                 }
                 
-            
+
             });
         }
     }

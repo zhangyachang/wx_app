@@ -5,6 +5,7 @@ const express = require('express'),
     http = require('http'),
     morgan = require('morgan'),
     init = require('./module/init'),
+    xmlparser = require('express-xml-bodyparser'),
     {port} = require('./config/wx_config');
 
 app.use(morgan('dev'));
@@ -21,6 +22,8 @@ app.all('*', function(req, res, next) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(xmlparser());
 
 app.use('/', express.static(join(__dirname, 'public')));
 
