@@ -153,8 +153,6 @@ module.exports = {
                 }catch (e) {
                     reject(e);
                 }
-                
-
             });
         }
     }

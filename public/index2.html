@@ -7,7 +7,7 @@
 </head>
 <body>
 
-
+    
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script>
 
@@ -23,13 +23,8 @@
             });
             console.log('打印');
             console.log(a);
-
         }
         fn();
-
-
-
-
 
 
 
@@ -37,3 +32,16 @@
     </script>
 </body>
 </html>
+
+
+In order to deal with the issue of scale, the DNS uses a large number of servers,
+organized in a hierarchical fashion and distributed around the world. No single DNS
+server has all of the mappings for all of the hosts in the Internet. Instead, the mappings are distributed across the DNS servers. To a first approximation, there are
+three classes of DNS servers—root DNS servers, top-level domain (TLD) DNS
+servers, and authoritative DNS servers—organized in a hierarchy as shown in Figure 2.19. To understand how these three classes of servers interact, suppose a DNS
+client wants to determine the IP address for the hostname www.amazon.com. To
+a first approximation, the following events will take place. The client first contacts
+one of the root servers, which returns IP addresses for TLD servers for the top-leve
+domain com. The client then contacts one of these TLD servers, which returns the
+IP address of an authoritative server for amazon.com. Finally, the client contact
+one of the authoritative servers for amazon.com, which returns the IP address
