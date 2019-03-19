@@ -9,8 +9,8 @@ const crypto = require('crypto'),
     @author : Z
     @data : 2019-2-13
     
-    @params : a,b,c……
-    @return : String 加密完成后的字符串
+    @params {String, String...} a,b,c……
+    @return {String} 加密完成后的字符串
  */
 exports.sha1 = function (...arr) {
     return crypto.createHash('sha1').update(arr.sort().join('')).digest('hex');
@@ -22,12 +22,12 @@ exports.sha1 = function (...arr) {
         修复部分消息解析失败的情况
     @author: Z
     @data :2019-02-14
-    @params:
+    @params {Object}
         obj.AESKey:解密的aesKey值
         obj.text: 需要解密的密文
         obj.corpid: 企业的id / 微信小程序的appid
   
-    @return
+    @return {Object}
         obj.noncestr  随机数
         obj.msg_len   微信密文的len
         obj.msg       解密后的明文
@@ -58,8 +58,8 @@ exports.decrypt = function (obj) {
     @version    1.0.0
     @author     Z
     @data       2019-2-15
-    @params     urlPath 文件路径
-    @params     type 文件类型
+    @params {String} urlPath 文件路径
+    @params {String} type 文件类型
  */
 
 exports.uploadFile = function (urlPath, type) {
@@ -76,7 +76,7 @@ exports.uploadFile = function (urlPath, type) {
     @data   2019-2-15
     @params String 要删除的文件路径
     
-    @return
+    @return {Object}
         {
             status:;
             msg: ""

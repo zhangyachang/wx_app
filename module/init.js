@@ -22,10 +22,10 @@ module.exports = {
             @explain 解决post与get请求获取不统一的问题
             @author Z
             @data   2019-2-15
-            @params
+            @params {Object, Object}
                 req:route(路由)方法的req参数
                 res:route(路由)方法的res参数
-            @return
+            @return {Object}
                 obj.client : 返回给客户端的json对象，所有返回客户端的结构必须基于此对象
                 obj.params : 用户提交的参数对象集合
         */

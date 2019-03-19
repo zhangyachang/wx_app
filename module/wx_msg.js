@@ -241,7 +241,7 @@ exports.getOpenidByCode = (req, res) => {
 /*
     上传文件保存到服务器
     
-    @return
+    @return {Object}
         obj.status  状态码
         obj.filePath 图片在服务器中的路径
         obj.msg     提示信息
@@ -258,7 +258,7 @@ exports.uploadFile = (req, res) => {
 /*
     upload
         服务器推送图片消息给用户
-    @params imgPath 要发送的图片的路径
+    @params {String} imgPath 要发送的图片的路径
  */
 
 exports.uploadImage = (req, res) => {
