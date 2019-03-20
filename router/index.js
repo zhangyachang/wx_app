@@ -27,7 +27,7 @@ router.get('/checkPushMsg', wx_msg.check_push);
  * 接收用户发送给小程序客服的消息
  * 
  */
-router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
+router.post('/checkPushMsg', wx_msg.handleCustomerServer);
 
 /**
  * 上传文件
