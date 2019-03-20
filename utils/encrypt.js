@@ -92,7 +92,7 @@ const padding = function (n){
     @explain 微信消息的加密方法
     @version 1.0.0
     @data 2019-2-13
-    @params
+    @params {Object}
         obj.msg             待加密消息
         obj.corpId          企业id/小程序id
         obj.encodingAESKey  加密签名

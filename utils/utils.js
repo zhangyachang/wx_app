@@ -1,6 +1,6 @@
-const crypto = require('crypto'),
-    fs = require('fs'),
-    {result} = require('../module/result');
+const crypto = require('crypto');
+const fs = require('fs');
+const {result} = require('../module/result');
 
 /*
     @explain sh1加密

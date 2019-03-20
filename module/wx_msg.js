@@ -1,18 +1,17 @@
-const axios = require('axios'),
-    request = require('request'),
-    {app, pushToken} = require('../config/wx_config'),
-    {result} = require('./result'),
-    fs = require('fs'),
-    crypto = require('crypto'),
-    // upload = require('../utils/multer'),
-    multer = require('multer'),
-    {join} = require('path'),
-    {sha1, decrypt} = require('../utils/utils'),
-    utils = require('../utils/utils'),
-    ZY = require('../module/init'),
-    config = require('../config/wx_config');
+const axios = require('axios');
+const request = require('request');
+const {app, pushToken} = require('../config/wx_config');
+const {result} = require('./result');
+const fs = require('fs');
+const crypto = require('crypto');
+const multer = require('multer');
+const {join} = require('path');
+const {sha1, decrypt} = require('../utils/utils');
+const utils = require('../utils/utils');
+const ZY = require('../module/init');
+const config = require('../config/wx_config');
 
-let upload = multer({dest: join(process.cwd(), 'public', 'down')});
+const upload = multer({dest: join(process.cwd(), 'public', 'down')});
 
 
 /**
@@ -337,8 +336,9 @@ exports.get_templateid = (req, res) => {
   }
 };
 
-/*
-    下载文件
+/**
+ * 下载文件
+ * 
  */
 
 exports.downFile = (req, res) => {
@@ -348,10 +348,10 @@ exports.downFile = (req, res) => {
     
 };
 
-/*
-    删除文件 测试接口
-    
-*/
+/**
+ * 删除文件 测试接口
+ * 
+ */
 exports.deleteFile = (req, res) => {
     console.log('出发了删除文件的函数');
     let delFilePath = join(process.cwd(), 'public', 'img', 'wx_img');

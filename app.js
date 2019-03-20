@@ -1,12 +1,12 @@
-const express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    {join} = require('path'),
-    http = require('http'),
-    morgan = require('morgan'),
-    init = require('./module/init'),
-    xmlparser = require('express-xml-bodyparser'),
-    {port} = require('./config/wx_config');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const {join} = require('path');
+const http = require('http');
+const morgan = require('morgan');
+const init = require('./module/init');
+const xmlparser = require('express-xml-bodyparser');
+const {port} = require('./config/wx_config');
 
 app.use(morgan('dev'));
 
