@@ -85,7 +85,7 @@ exports.check_push = (req, res) => {
         
 */
 
-exports.handle_customer_sevice = (req, res) => {
+exports.handleCustomerServer = (req, res) => {
     console.log('接收到了消息，请求体中');
     console.log(req.body);
     console.log('接收到了消息，请求url中');

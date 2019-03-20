@@ -23,7 +23,7 @@ app.all('*', function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(xmlparser());
+app.use(xmlparser()); /* 为了解析微信的 xml 格式的文件而加入的 */
 
 app.use('/', express.static(join(__dirname, 'public')));
 
