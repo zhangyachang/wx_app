@@ -215,6 +215,8 @@ exports.handleCustomerServerXML = (req, res) => {
       text: msg_encrypt,
       corpid: config.app.appId
     });
+    console.log('msg函数中接收到的数据内容');
+    
     console.log(lastData);
   }
   res.send('接收到了请求');

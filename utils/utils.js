@@ -76,34 +76,21 @@ exports.decryptXML = function(obj){
     const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
     cipher.setAutoPadding(false); // 是否取消自动填充 不取消
     let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
-    console.log('解密函数解密出来的消息串');
-    console.log(this_text);
     /*
         密文的构成
             Base64_Encode(AES_Encrypt[random(16B) + msg_len(4B) + msg + $appId])
         但是由于部分消息是不满足那个 32 位的，所以导致上面那个 cipher.final() 函数报错，所以修改为了自动填充，所以 appId后面还跟着一些字符
-            就无法正常解析了，所以就不返回 corpid 了，然后返回我们想要的东西。
-        */
-    console.log('我解析后的内容为');
-    var xmlText = '';
+            就无法正常解析了，所以就不返回 corpid 了，然后返回我们想要的东西,  这两个问题遇到的是一样的，总是自动填充惹出来的问题
+    */
+    let xmlText = '';
     xml2js.parseString(this_text.substring(20,this_text.lastIndexOf(">")+1), function(err, result){
         if(err) throw err;
-        console.log('解析了xml格式');
-        console.log(result);
         xmlText = result;
     });
-
-    console.log({
-        noncestr:this_text.substring(0,16),
-        msg_len:this_text.substring(16,20),
-        msg:xmlText,
-        corpid: this_text.substring(this_text.lastIndexOf(">")+1)
-    });
-
     return {
         noncestr:this_text.substring(0,16),
         msg_len:this_text.substring(16,20),
-        msg:this_text.substring(20,this_text.lastIndexOf(">")+1),
+        msg:xmlText,
         corpid: this_text.substring(this_text.lastIndexOf(">")+1)
     }
 }
