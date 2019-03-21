@@ -25,9 +25,17 @@ router.get('/checkPushMsg', wx_msg.check_push);
 
 /**
  * 接收用户发送给小程序客服的消息
+ * 此方法解析的是 json 格式加密的
  * 
  */
 router.post('/checkPushMsg', wx_msg.handleCustomerServer);
+
+/**
+ * 
+ * 
+ */
+
+
 
 /**
  * 上传文件
@@ -43,6 +51,12 @@ router.post('/uploadFile', upload.single('file'), function (req, res, next) {
         file: req.file
     });
 });
+
+/**
+ * 测试 base64 转码
+ * 
+ * 
+ */
 
 
 

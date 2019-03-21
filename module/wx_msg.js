@@ -176,6 +176,19 @@ exports.handleCustomerServer = (req, res) => {
     }
 };
 
+/**
+ * 此处方法解析的是微信消息加密 XML 格式的
+ * 
+ * 
+ */
+exports.handleCustomerServerXML = (req, res) => {
+  console.log('接收到了请求url中');
+  console.log(req.query);
+  console.log('接收到了请求，请求体中');
+  console.log(req.body);
+  res.send('接收到了请求');
+}
+
 
 
 /**
