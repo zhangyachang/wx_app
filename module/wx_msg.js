@@ -178,16 +178,26 @@ exports.handleCustomerServer = (req, res) => {
 
 /**
  * 此处方法解析的是微信消息加密 XML 格式的
- * 
- * 
+ *  
  */
 exports.handleCustomerServerXML = (req, res) => {
   console.log('接收到了请求url中');
   console.log(req.query);
   console.log('接收到了请求，请求体中');
   console.log(req.body);
+  
+  const {signature,timestamp, nonce, msg_signature} = req.query; // 把网址上面的字符串拿下来
+  const encrypt = req.body.xml.encrypt[0];
+  console.log('打印我接收到的东西');
+  console.log(signature);
+  console.log(timestamp);
+  console.log(nonce);
+  console.log(msg_signature);
+  console.log(encrypt);
+
   res.send('接收到了请求');
 }
+
 
 
 
