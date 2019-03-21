@@ -74,7 +74,7 @@ exports.decryptXML = function(obj){
     const cipherEncoding = 'base64';
     const clearEncoding = 'utf8';
     const cipher = crypto.createDecipheriv('aes-256-cbc',aesKey,aesKey.slice(0, 16));
-    cipher.setAutoPadding(true); // 是否取消自动填充 不取消
+    cipher.setAutoPadding(false); // 是否取消自动填充 不取消
     let this_text = cipher.update(obj.text, cipherEncoding, clearEncoding) + cipher.final(clearEncoding);
     console.log('解密函数解密出来的消息串');
     console.log(this_text);
