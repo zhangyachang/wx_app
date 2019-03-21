@@ -209,17 +209,33 @@ exports.handleCustomerServerXML = (req, res) => {
   // 验证消息的正确性
   const dev_msg_signature = sha1(config.pushToken, timestamp, nonce, msg_encrypt);
   if(dev_msg_signature == msg_signature){
-    console.log('签名消息正确,来自微信服务器');
+    // 签名消息正确,来自微信服务器 解密
     const lastData = utils.decryptXML({
       AESKey: config.server.EncodingAESKey,
       text: msg_encrypt,
       corpid: config.app.appId
     });
     console.log('msg函数中接收到的数据内容');
-    
+
     console.log(lastData);
+    console.log('收到的消息为' + lastData.msg.xml.Content[0]);
+    if(lastData.msg.xml.Content[0] == '新年好'){
+      console.log('接收到了新年好');
+      ZY.msg.textMsg(openid, openid, '你TM新年也好啊！')
+        .then(res => {
+          console.log('消息发送成功！');
+          console.log(res);
+        })
+        .catch(err => {
+          console.log('消息发送失败');
+          console.log(err);
+        })
+    }
+
+  }else{
+    console.log('非微信服务器试图发送消息给我！！');
+    res.send('你在玩啥呢？？');
   }
-  res.send('接收到了请求');
 }
 
 
