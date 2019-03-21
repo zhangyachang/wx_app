@@ -28,12 +28,14 @@ router.get('/checkPushMsg', wx_msg.check_push);
  * 此方法解析的是 json 格式加密的
  * 
  */
-router.post('/checkPushMsg', wx_msg.handleCustomerServer);
+// router.post('/checkPushMsg', wx_msg.handleCustomerServer);
 
 /**
- * 
+ * 接收用于发送给小程序客服的消息
+ * 此方法解析的是 xml 格式加密的
  * 
  */
+router.post('/checkPushMsg', wx_msg.handleCustomerServerXML);
 
 
 
