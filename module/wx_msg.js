@@ -232,13 +232,25 @@ exports.handleCustomerServerXML = (req, res) => {
         .then(res => {
           console.log('消息发送成功！');
           console.log(res);
+          res.send('success');
+        })
+        .catch(err => {
+          console.log('消息发送失败');
+          console.log(err);
+        })
+    }else{
+      ZY.msg.textMsg(openid, openid, '你瞧瞧你说的是人话吗？')
+        .then(res => {
+          console.log('消息发送成功！');
+          console.log(res);
+          res.send('success');
         })
         .catch(err => {
           console.log('消息发送失败');
           console.log(err);
         })
     }
-    res.send('success');
+    
   }else{
     console.log('非微信服务器试图发送消息给我！！');
     res.send('你在玩啥呢？？');
