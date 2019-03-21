@@ -212,11 +212,11 @@ exports.handleCustomerServerXML = (req, res) => {
     console.log('签名消息正确,来自微信服务器');
     console.log('把消息体传入解析函数中');
     console.log({
-      AESKey: config.AESKey,
+      AESKey: config.server.AESKey,
       text: msg_encrypt,
       corpid: config.app.appId
     });
-    
+
     const lastData = utils.decrypt({
       AESKey: config.AESKey,
       text: msg_encrypt,
