@@ -218,7 +218,7 @@ exports.handleCustomerServerXML = (req, res) => {
     });
 
     const lastData = utils.decrypt({
-      AESKey: config.AESKey,
+      AESKey: config.server.EncodingAESKey,
       text: msg_encrypt,
       corpid: config.app.appId
     });
