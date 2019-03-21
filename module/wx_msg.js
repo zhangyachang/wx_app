@@ -218,7 +218,7 @@ exports.handleCustomerServerXML = (req, res) => {
     console.log('msg函数中接收到的数据内容');
 
     console.log(lastData);
-    console.log('收到的消息为' + lastData.msg.xml.Content[0]);
+    console.log('收到的消息为 --------- ' + lastData.msg.xml.Content[0]);
     if(lastData.msg.xml.Content[0] == '新年好'){
       console.log('接收到了新年好');
       ZY.msg.textMsg(openid, openid, '你TM新年也好啊！')
@@ -231,7 +231,7 @@ exports.handleCustomerServerXML = (req, res) => {
           console.log(err);
         })
     }
-
+    res.send('success');
   }else{
     console.log('非微信服务器试图发送消息给我！！');
     res.send('你在玩啥呢？？');
