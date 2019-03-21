@@ -94,34 +94,37 @@ exports.decryptXML = function(obj){
 
 
 
-/*
-    @explain    上传文件
-    @version    1.0.0
-    @author     Z
-    @data       2019-2-15
-    @params {String} urlPath 文件路径
-    @params {String} type 文件类型
+/**
+ * 上传文件
+ * @version    1.0.0
+ * @author     Z
+ * @data       2019-2-15
+ * 
+ * @params {String} urlPath 文件路径
+ * @params {String} type 文件类型
+ * 
  */
-
 exports.uploadFile = function (urlPath, type) {
     return new Promise((resolve, reject) => {
     
     })
 };
 
-
-/*
-    @explain 删除文件
-    @version 1.0.0
-    @author Z
-    @data   2019-2-15
-    @params String 要删除的文件路径
-    
-    @return {Object}
-        {
-            status:;
-            msg: ""
-        }
+/**
+ * 删除文件
+ * @author Z
+ * @data 2019-2-25
+ * @version 1.0.0
+ * 
+ * @params {String} 要删除的文件路径
+ * 
+ * @return {Promise对象}
+ *  {Object} 
+ *      {
+ *          status: "",
+ *          msg: ""
+ *      }
+ * 
  */
 exports.deleteFile = function (localPath) {
     return new Promise((resolve, reject) => {
@@ -139,6 +142,44 @@ exports.deleteFile = function (localPath) {
         }
     });
 };
+
+
+/**
+ * 两个工具函数 xml 与 json 格式的对象互相转换，json转xml格式没有具体的测试，应该是没问题的，有问题再修改
+ * @author Z
+ * @data 2019-3-21
+ * @version 1.0.0
+ * 
+ * @params {String} str 
+ * 
+ * @return {Promise对象} 
+ * 
+ */
+exports.xmlToJson = function(str){
+    return new Promise((resolve, reject) => {
+        const parseString = xml2js.parseString
+            parseString(str, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+}
+
+/**
+ * json 格式的对象转换为 xml 格式
+ * 
+ * @params {Object} obj
+ * 
+ * @return {String} xml格式的字符串
+ * 
+ */
+exports.jsonToXml = function(obj){
+    const builder = new xml2js.Builder();
+    return builder.buildObject(obj);
+}
 
 
 

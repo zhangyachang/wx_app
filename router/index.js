@@ -97,6 +97,23 @@ router.get('/down', wx_msg.downFile);
 router.get('/get_templateid', wx_msg.get_templateid);
 
 
+router.post('/textxml', (req, res) => {
+    console.log('请求到了接口');
+    var data = '';
+    console.log(req);
+    
+    req.on('data', (chunk) => {
+        data += chunk;
+    });
+    req.on('end', () => {
+        console.log('接收完毕');
+        console.log(data);
+    });
+
+    res.send('xml');
+});
+
+
 
 
 module.exports = router;
