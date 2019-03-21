@@ -178,6 +178,18 @@ exports.handleCustomerServer = (req, res) => {
 
 /**
  * 此处方法解析的是微信消息加密 XML 格式的
+ * URL地址中的内容
+ * 
+ * @params {String} signature      签名串
+ * @params {String} timestamp      时间戳
+ * @params {String} nonce          随机串
+ * @params {String} encrypt_type   加密类型（aes）
+ * @params {String} openid         
+ * @params {String} msg_signature  消息体签名.用于验证消息体的正确性
+ * 
+ * 请求体中的内容 -- 解析后
+ * @params {String} tousername    小程序的原始id
+ * @params {String} encrypt       加密后的消息字符串
  *  
  */
 exports.handleCustomerServerXML = (req, res) => {
@@ -185,15 +197,19 @@ exports.handleCustomerServerXML = (req, res) => {
   console.log(req.query);
   console.log('接收到了请求，请求体中');
   console.log(req.body);
+  const {signature,timestamp, nonce, encrypt_type, openid, msg_signature} = req.query;
+  const msg_encrypt = req.body.xml.encrypt[0];
   
-  const {signature,timestamp, nonce, msg_signature} = req.query; // 把网址上面的字符串拿下来
-  const encrypt = req.body.xml.encrypt[0];
-  console.log('打印我接收到的东西');
-  console.log(signature);
-  console.log(timestamp);
-  console.log(nonce);
+  // 验证消息的正确性
+  const dev_msg_signature = sha1(config.pushToken, timestamp, nonce, msg_encrypt);
+  console.log('验证签名消息的正确性');
+  console.log(dev_msg_signature);
   console.log(msg_signature);
-  console.log(encrypt);
+  console.log(dev_msg_signature == msg_signature);
+  if(dev_msg_signature == msg_signature){
+    console.log('签名消息正确,来自微信服务器');
+    
+  }
 
   res.send('接收到了请求');
 }
