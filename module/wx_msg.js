@@ -219,9 +219,16 @@ exports.handleCustomerServerXML = (req, res) => {
 
     console.log(lastData);
     console.log('收到的消息为 --------- ' + lastData.msg.xml.Content[0]);
-    if(lastData.msg.xml.Content[0] == '新年好'){
-      console.log('接收到了新年好');
-      ZY.msg.textMsg(openid, openid, '你TM新年也好啊！')
+
+    var msgArr = {
+      '新年好': '你TM新年也好啊',
+      '值班': '老子今天不上班，你值你m呢',
+      '你好': '你好',
+      '什么': '你在说什么呢？'
+    };
+    var replyMsg = msgArr[lastData.msg.xml.Content[0]];
+    if(replyMsg){
+      ZY.msg.textMsg(openid, openid, replyMsg)
         .then(res => {
           console.log('消息发送成功！');
           console.log(res);
