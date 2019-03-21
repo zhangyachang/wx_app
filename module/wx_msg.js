@@ -182,7 +182,7 @@ exports.handleCustomerServer = (req, res) => {
  * 过程介绍为 
  * 1. 先拿到消息 URL 中的字符串，并且拿到消息体中的密文体
  * 2. 对 URL 和 密文体 进行微信方面提供的加密方法验证是否等于消息体签名，验证消息是否为微信转发过来的
- * 3. 
+ * 3. 第 2 步验证成功之后，对微信消息进行解密，解密函数在工具函数中
  * 
  * URL地址中的内容
  * 
@@ -210,21 +210,13 @@ exports.handleCustomerServerXML = (req, res) => {
   const dev_msg_signature = sha1(config.pushToken, timestamp, nonce, msg_encrypt);
   if(dev_msg_signature == msg_signature){
     console.log('签名消息正确,来自微信服务器');
-    console.log('把消息体传入解析函数中');
-    console.log({
-      AESKey: config.server.EncodingAESKey,
-      text: msg_encrypt,
-      corpid: config.app.appId
-    });
-
-    const lastData = utils.decrypt({
+    const lastData = utils.decryptXML({
       AESKey: config.server.EncodingAESKey,
       text: msg_encrypt,
       corpid: config.app.appId
     });
     console.log(lastData);
   }
-
   res.send('接收到了请求');
 }
 
