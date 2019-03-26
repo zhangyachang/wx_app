@@ -242,7 +242,6 @@ exports.handleCustomerServerXML = (req, res) => {
         .then(res => {
           console.log('消息发送成功！');
           console.log(res);
-          
         })
         .catch(err => {
           console.log('消息发送失败');

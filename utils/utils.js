@@ -180,12 +180,3 @@ exports.jsonToXml = function(obj){
     const builder = new xml2js.Builder();
     return builder.buildObject(obj);
 }
-
-
-
-
-
-
-
-
-
