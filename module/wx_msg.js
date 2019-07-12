@@ -224,7 +224,9 @@ exports.handleCustomerServerXML = (req, res) => {
       '新年好': '你TM新年也好啊',
       '值班': '老子今天不上班，你值你m呢',
       '你好': '你好',
-      '什么': '你在说什么呢？'
+      '什么': '你在说什么呢？',
+      '哦': '你好啊',
+      '多好': '是的额'
     };
     var replyMsg = msgArr[lastData.msg.xml.Content[0]];
     if(replyMsg){
