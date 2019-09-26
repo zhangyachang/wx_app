@@ -1,5 +1,5 @@
 module.exports = {
-    port: 3000,  //监听的端口号
+    port: 7000,  //监听的端口号
     app: {
         appId: "wx5a6f4750ba3ee7e6", // 需要修改的
         secret: "096707e8c3caefa57b83186cf9875d7c" // 需要修改的
