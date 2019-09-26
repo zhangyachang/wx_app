@@ -1,18 +1,17 @@
-const axios = require('axios'),
-    request = require('request'),
-    {app, pushToken} = require('../config/wx_config'),
-    {result} = require('./result'),
-    fs = require('fs'),
-    crypto = require('crypto'),
-    // upload = require('../utils/multer'),
-    multer = require('multer'),
-    {join} = require('path'),
-    {sha1, decrypt} = require('../utils/utils'),
-    utils = require('../utils/utils'),
-    ZY = require('../module/init'),
-    config = require('../config/wx_config');
+const axios = require('axios');
+const request = require('request');
+const {app, pushToken} = require('../config/wx_config');
+const {result} = require('./result');
+const fs = require('fs');
+const crypto = require('crypto');
+const multer = require('multer');
+const {join} = require('path');
+const {sha1, decrypt} = require('../utils/utils');
+const utils = require('../utils/utils');
+const ZY = require('../module/init');
+const config = require('../config/wx_config');
 
-let upload = multer({dest: join(process.cwd(), 'public', 'down')});
+const upload = multer({dest: join(process.cwd(), 'public', 'down')});
 
 
 /**
@@ -22,7 +21,7 @@ let upload = multer({dest: join(process.cwd(), 'public', 'down')});
  *   返回值 示例
  *    成功
  *   {
- *     access_token: '18_vrDeYZhDhbqsGDCDvHNw-jkrsvFF4dQKA1RYQ2dkSCDFZ
+ *     access_token: 18_vrDeYZhDhbqsGDCDvHNw'-jkrsvFF4dQKA1RYQ2dkSCDFZ
  *        QYelkXaJTQ3IWYs4fJV8Xlt9crMOCiBlOcLppISvxQq5SEJAyPeCQchZOf4eSsB7XS4eesCgtpJWsKGRL_n0HNLneSjT8ZOiWmvYMIgADAJXT',
  *     status: 75200
  *   }
@@ -86,7 +85,7 @@ exports.check_push = (req, res) => {
         
 */
 
-exports.handle_customer_sevice = (req, res) => {
+exports.handleCustomerServer = (req, res) => {
     console.log('接收到了消息，请求体中');
     console.log(req.body);
     console.log('接收到了消息，请求url中');
@@ -177,6 +176,88 @@ exports.handle_customer_sevice = (req, res) => {
     }
 };
 
+/**
+ * 此处方法解析的是微信消息加密 XML 格式的
+ * 
+ * 过程介绍为 
+ * 1. 先拿到消息 URL 中的字符串，并且拿到消息体中的密文体
+ * 2. 对 URL 和 密文体 进行微信方面提供的加密方法验证是否等于消息体签名，验证消息是否为微信转发过来的
+ * 3. 第 2 步验证成功之后，对微信消息进行解密，解密函数在工具函数中
+ * 
+ * URL地址中的内容
+ * 
+ * @params {String} signature      签名串
+ * @params {String} timestamp      时间戳
+ * @params {String} nonce          随机串
+ * @params {String} encrypt_type   加密类型（aes）
+ * @params {String} openid         
+ * @params {String} msg_signature  消息体签名.用于验证消息体的正确性
+ * 
+ * 请求体中的内容 -- 解析后
+ * @params {String} tousername    小程序的原始id
+ * @params {String} encrypt       加密后的消息字符串
+ *  
+ */
+exports.handleCustomerServerXML = (req, res) => {
+  console.log('接收到了请求url中');
+  console.log(req.query);
+  console.log('接收到了请求，请求体中');
+  console.log(req.body);
+  const {signature,timestamp, nonce, encrypt_type, openid, msg_signature} = req.query;
+  const msg_encrypt = req.body.xml.encrypt[0];
+  
+  // 验证消息的正确性
+  const dev_msg_signature = sha1(config.pushToken, timestamp, nonce, msg_encrypt);
+  if(dev_msg_signature == msg_signature){
+    // 签名消息正确,来自微信服务器 解密
+    const lastData = utils.decryptXML({
+      AESKey: config.server.EncodingAESKey,
+      text: msg_encrypt,
+      corpid: config.app.appId
+    });
+    console.log('msg函数中接收到的数据内容');
+
+    console.log(lastData);
+    console.log('收到的消息为 --------- ' + lastData.msg.xml.Content[0]);
+
+    var msgArr = {
+      '新年好': '你TM新年也好啊',
+      '值班': '老子今天不上班，你值你m呢',
+      '你好': '你好',
+      '什么': '你在说什么呢？',
+      '哦': '你好啊',
+      '多好': '是的额'
+    };
+    var replyMsg = msgArr[lastData.msg.xml.Content[0]];
+    if(replyMsg){
+      ZY.msg.textMsg(openid, openid, replyMsg)
+        .then(res => {
+          console.log('消息发送成功！');
+          console.log(res);
+        })
+        .catch(err => {
+          console.log('消息发送失败');
+          console.log(err);
+        })
+    }else{
+      ZY.msg.textMsg(openid, openid, '你瞧瞧你说的是人话吗？')
+        .then(res => {
+          console.log('消息发送成功！');
+          console.log(res);
+        })
+        .catch(err => {
+          console.log('消息发送失败');
+          console.log(err);
+        })
+    }
+    res.send('success');
+  }else{
+    console.log('非微信服务器试图发送消息给我！！');
+    res.send('你在玩啥呢？？');
+  }
+}
+
+
 
 
 /**
@@ -241,7 +322,7 @@ exports.getOpenidByCode = (req, res) => {
 /*
     上传文件保存到服务器
     
-    @return
+    @return {Object}
         obj.status  状态码
         obj.filePath 图片在服务器中的路径
         obj.msg     提示信息
@@ -258,7 +339,7 @@ exports.uploadFile = (req, res) => {
 /*
     upload
         服务器推送图片消息给用户
-    @params imgPath 要发送的图片的路径
+    @params {String} imgPath 要发送的图片的路径
  */
 
 exports.uploadImage = (req, res) => {
@@ -337,8 +418,9 @@ exports.get_templateid = (req, res) => {
   }
 };
 
-/*
-    下载文件
+/**
+ * 下载文件
+ * 
  */
 
 exports.downFile = (req, res) => {
@@ -348,10 +430,10 @@ exports.downFile = (req, res) => {
     
 };
 
-/*
-    删除文件 测试接口
-    
-*/
+/**
+ * 删除文件 测试接口
+ * 
+ */
 exports.deleteFile = (req, res) => {
     console.log('出发了删除文件的函数');
     let delFilePath = join(process.cwd(), 'public', 'img', 'wx_img');

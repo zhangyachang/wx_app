@@ -1,11 +1,12 @@
-const express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    {join} = require('path'),
-    http = require('http'),
-    morgan = require('morgan'),
-    init = require('./module/init'),
-    {port} = require('./config/wx_config');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const {join} = require('path');
+const http = require('http');
+const morgan = require('morgan');
+const init = require('./module/init');
+const xmlparser = require('express-xml-bodyparser');
+const {port} = require('./config/wx_config');
 
 app.use(morgan('dev'));
 
@@ -22,6 +23,8 @@ app.all('*', function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(xmlparser()); /* 为了解析微信的 xml 格式的文件而加入的 */
+
 app.use('/', express.static(join(__dirname, 'public')));
 
 app.use('/', require('./router/index'));
@@ -33,3 +36,4 @@ init.init();
 http.createServer(app).listen(port, () => {
   console.log(port+'端口服务启动成功');
 });
+

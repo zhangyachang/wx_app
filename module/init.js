@@ -22,10 +22,10 @@ module.exports = {
             @explain 解决post与get请求获取不统一的问题
             @author Z
             @data   2019-2-15
-            @params
+            @params {Object, Object}
                 req:route(路由)方法的req参数
                 res:route(路由)方法的res参数
-            @return
+            @return {Object}
                 obj.client : 返回给客户端的json对象，所有返回客户端的结构必须基于此对象
                 obj.params : 用户提交的参数对象集合
         */
@@ -42,8 +42,8 @@ module.exports = {
     auto_refreshAccessToken(){
         // 每隔7000s去刷新一次 access_token
         setInterval(() => {
-        console.log('access_token刷新函数执行了');
-        this.getAccessToken();
+            console.log('access_token刷新函数执行了');
+            this.getAccessToken();
         }, 7000000);
     },
     
@@ -153,8 +153,6 @@ module.exports = {
                 }catch (e) {
                     reject(e);
                 }
-                
-            
             });
         }
     }

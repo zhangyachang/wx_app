@@ -1,11 +1,6 @@
-const express = require('express'),
-    // /***/
-    // {join} = require('path'),
-    // multer = require('multer'),
-    // upload = multer({dest: join(process.cwd(), 'public', 'down')});
-    // /**/
-    upload = require('../utils/multer'),
-    router = express.Router();
+const express = require('express');
+const upload = require('../utils/multer');
+const router = express.Router();
 
 
 const wx_msg = require('../module/wx_msg');
@@ -16,19 +11,38 @@ router.get('/', (req, res) => {
 });
 
 /**
- *  获取 access_token
- *   @params  无
+ * 获取 access_token
+ * 
  */
 router.get('/accessToken', wx_msg.accessToken);
 
 
-// 配置前后端的推送消息
+/**
+ * 配置前后端的推送消息
+ * 
+ */
 router.get('/checkPushMsg', wx_msg.check_push);
 
-// 接收用户发送给小程序客服的消息
-router.post('/checkPushMsg', wx_msg.handle_customer_sevice);
+/**
+ * 接收用户发送给小程序客服的消息
+ * 此方法解析的是 json 格式加密的
+ * 
+ */
+// router.post('/checkPushMsg', wx_msg.handleCustomerServer);
 
-// 上传文件
+/**
+ * 接收用于发送给小程序客服的消息
+ * 此方法解析的是 xml 格式加密的
+ * 
+ */
+router.post('/checkPushMsg', wx_msg.handleCustomerServerXML);
+
+
+
+/**
+ * 上传文件
+ * 
+ */
 router.post('/uploadFile', upload.single('file'), function (req, res, next) {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
@@ -39,6 +53,12 @@ router.post('/uploadFile', upload.single('file'), function (req, res, next) {
         file: req.file
     });
 });
+
+/**
+ * 测试 base64 转码
+ * 
+ * 
+ */
 
 
 
@@ -71,8 +91,27 @@ router.get('/down', wx_msg.downFile);
 /****************************/
 
 
-// 在后端服务器中调用，获取这些模板的id
+/**
+ * 在后端服务器中调用，获取这些模板的id
+ */
 router.get('/get_templateid', wx_msg.get_templateid);
+
+
+router.post('/textxml', (req, res) => {
+    console.log('请求到了接口');
+    var data = '';
+    console.log(req);
+    
+    req.on('data', (chunk) => {
+        data += chunk;
+    });
+    req.on('end', () => {
+        console.log('接收完毕');
+        console.log(data);
+    });
+
+    res.send('xml');
+});
 
 
 
